@@ -28,6 +28,7 @@
 ### V3 : 
 - Urgence de la tache / priorité(avec couleur ou tag)
 - Catégorie de la tâche et si possible sous catégorie
+- Pouvoir filtrer par catégorie
 
 ### Wireframes
 
