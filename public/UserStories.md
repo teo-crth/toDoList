@@ -2,7 +2,6 @@
 
 ## V1 Utilisateurs 
 
-
 | En tant que ...  | J'ai besoin de ...                                                 | Afin de ...                                         | Sprint |
 | ---------------- | ------------------------------------------------------------------ | --------------------------------------------------- | ------ |
 | Utilisateur      | Ajouter une tâches                                                 | De me souvenir de la faire                          | 1      |
@@ -11,15 +10,13 @@
 | Utilisateur      | Changer l'état de la tâche                                         | Visualiser l'avancement des tâches                  | 1      |
 | Utilisateur      | Donner une description à une tâche                                 | De préciser ce qui est attendu                      | 1      |
 
-## V2 Utilisateurs ²
+## V2 Utilisateurs
 
 | En tant que ...  | J'ai besoin de ...                                                 | Afin de ...                                         | Sprint |
 | ---------------- | ------------------------------------------------------------------ | --------------------------------------------------- | ------ |
 | Utilisateur      | Déplacer une tâche avec un glisser déposer                         | Faciliter l'usage & les changements d'états         | 2      |
 | Utilisateur      | Ajouter une échéance à une tâche ( date et heure )                 | Savoir quand la tâche doit être réalisée            | 2      |
 | Utilisateur      | Ajouter un lien cliquable                                          | Partager des contenues externes                     | 2      |
-
-
 
 
 ## V3 Utilisateurs 
