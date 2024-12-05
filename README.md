@@ -19,6 +19,7 @@
 
 
 ### V2 : 
+- Cliquer sur une carte pour l'ouvrir (pop up)
 - Drag and drop
 - Echéance : Jour & heure
 - Liens
