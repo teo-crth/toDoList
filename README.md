@@ -28,3 +28,7 @@
 - Urgence de la tache / priorité(avec couleur ou tag)
 - Catégorie de la tâche et si possible sous catégorie
 
+### Wireframes
+
+[Wireframe v1 Desktop](/public/wireframes/WF%20desktop%20V1.png)
+[Wireframe v1 Mobile](/public/wireframes/WF%20mobile%20V1.png)
