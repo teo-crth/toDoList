@@ -84,9 +84,17 @@
     generateTask();
     
     // Supprimer une tâche
-    const buttonDelete = document.getElementById("delete-task-button");
+    const buttonDelete = document.getElementsByClassName("delete-task-button");
     let id = buttonDelete.dataset.id;
     
+    for (let i = 0; i < buttonDelete.length; i++) {
+            // Cible le conteneur correspondant en utilisant l'index
+            buttonDelete[i].addEventListener('click', () => {
+                deleteTask(id);
+                console.log('Supprimer');
+            });
+    }
+
     function deleteTask(id){
         if (id === tasks.filter(task => task.id === id )){
             tasks.splice(id, 1); //supprime
@@ -94,12 +102,7 @@
         } else{
             console.error("Introuvable");    
         }
-        
     }
-    
-    buttonDelete.addEventListener('click', () => {
-        deleteTask(id);
-    });
     
     // ouvrir la div de modification/suppression d'une tache
     const html_modifyIcone = document.getElementsByClassName('modify-icon');
