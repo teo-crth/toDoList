@@ -1,4 +1,4 @@
-const task = 
+const task = {
     id: 1,
     title: 'Tâche 1',
     description: 'My description',
@@ -12,7 +12,7 @@ const buttonDelete = document.getElementById("delete-task-button");
 
 function deleteTask(id){
     if (id === taskArray[task.id]){
-        taskArray.splice(index,1); //supprime
+        taskArry.splice(index,1); //supprime
         console.log(`Tâche avec ID ${taskId} supprimée.`);//affiche dans la console que la tâche à était supprimer
     } else{
         console.error("Introuvable");    
