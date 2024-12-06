@@ -64,6 +64,7 @@ const generateTask = () => {
         // Add content
         html_taskTitle.textContent = task.title;
         html_descriptionTask.textContent = task.description;
+        html_modifyIcone.textContent = '...';
         html_buttonModifyTask.textContent = 'Modifier';
         html_buttonDelete.textContent = 'Supprimer';
 
