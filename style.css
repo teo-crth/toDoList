@@ -8,19 +8,33 @@
 
  header {
    background-color: var(--color-light-blue);
+   box-shadow: 0px 0px 8px 2px grey;
+ }
+
+ body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
  }
 
  main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     height: 100vh;
     width: 100%;
+    margin: 0;
+    padding: 0;
  }
 
  .container-sections {
-   flex-direction: row;
+   flex-direction: column;
+   margin: 0 auto;
+   display: flex;
+   gap: 15px;
+   width: 95%;
+   margin-top: 2rem;
  }
 
  .hidden {
@@ -29,10 +43,15 @@
 
 .container-main-title, 
 .container-kanban-title, 
-.container-add-icone, 
-.container-sections {
+.container-add-icone,
+section {
    width: 100%;
    display: flex;
+}
+
+.container-main-title, 
+.container-kanban-title, 
+.container-add-icone {
    justify-content: center;
    align-items: center;
 }
@@ -46,55 +65,113 @@ h1 {
 
 section {
    margin: 0 auto;
-   padding: 1rem;
-   width: 30%;
+   width: 100%;
    background-color: var(--color-light-blue);
    max-height: 70vh;
+   border-radius: 10px;
+   overflow: scroll;
+   flex-direction: column;
+   align-items: center;
+   justify-content: start;
+   box-shadow: 0px 0px 2px 2px lightgray;
 }
 
 article {
    display: flex;
    flex-direction: column;
    width: 90%;
-   justify-content: start;
+   justify-content: center;
    align-items: center;
-   background-color: lightgray;
+   background-color: white;
    border-radius: 10px;
    box-shadow: 0px 0px 2px 2px lightgray;
+   gap: 10px;
+   margin-bottom: 1rem;
+}
+
+.container-task-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: var(--color-blue);
+  border-radius: 10px 10px 0 0;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
 }
 
 .container-kanban-title {
     margin-bottom: 1rem;
  }
 
- .state-title {
-    color: var(--color-dark-blue);
-    font-size: 1.5rem;
-    font-weight: bold;
- }
-
- .container-task-header {
-   display: flex;
-   flex-direction: row;
-
- }
-
- .container-modificationOfaTask {
-
- }
-
- .container-add-icone {
-
- }
-
- #add-icone {
-
- }
-
- .task-name {
-
- }
-
  .modify-icon {
+   cursor: pointer;
+   position: absolute;
+   right: 10px;
+   top: 5px;
+   font-size: 20px;
+   font-weight: 800;
 
  }
+
+.state-title {
+   color: black;
+   font-size: 1.5rem;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+
+
+.container-modificationOfaTask {
+
+}
+
+.container-add-icone {
+
+}
+
+#add-icone {
+   cursor: pointer;
+   font-size: 6rem;
+   color: white;
+   background-color: var(--color-orange);
+   border-radius: 50%;
+   padding: 1rem 3rem;
+   box-shadow: 0px 2px 2px 2px var(--color-light-blue);
+   margin-top: 1rem;
+
+}
+
+#add-icone:hover {
+   background-color: orange;
+}
+
+.task-name {
+   color: white;
+   font-weight: 600;
+   font-size: 1.5rem;
+}
+
+.modify-icon {
+   color: white;
+
+}
+
+.container-task-body p {
+   color: black;
+   font-size: 1.2rem;
+   font-weight: 500;
+   text-align: justify;
+}
+
+@media screen and (min-width: 768px) {
+   .container-sections {
+      flex-direction: row;
+   }
+
+   section {
+      width: 90%;
+   }
+   
+}

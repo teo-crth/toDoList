@@ -7,4 +7,3 @@ const task = {
 }
 
 const taskArray = [task];
-
