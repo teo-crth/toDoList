@@ -85,7 +85,6 @@ function deleteTask(id){
     } else{
         console.error("Introuvable");    
     }
-   
 }
 
 buttonDelete.addEventListener('click', () => {
