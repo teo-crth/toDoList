@@ -72,8 +72,7 @@ const generateTask = () => {
 }
 generateTask();
 
-const taskArray = [tasks];
-const id = tasks.id
+
 const buttonDelete = document.getElementById("delete-task-button");
 
 function deleteTask(id){
