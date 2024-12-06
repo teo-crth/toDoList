@@ -85,23 +85,38 @@
     
     // Supprimer une tâche
     const buttonDelete = document.getElementsByClassName("delete-task-button");
-    let id = buttonDelete.dataset.id;
     
     for (let i = 0; i < buttonDelete.length; i++) {
-            // Cible le conteneur correspondant en utilisant l'index
-            buttonDelete[i].addEventListener('click', () => {
-                deleteTask(id);
-                console.log('Supprimer');
-            });
+        // Ajouter un événement de clic à chaque bouton de suppression
+        buttonDelete[i].addEventListener('click', () => {
+            // Récupérer l'ID du bouton de suppression à partir de son dataset
+            let id = buttonDelete[i].dataset.id;
+            
+            // Appeler la fonction deleteTask avec l'ID récupéré
+            deleteTask(id);            
+        });
     }
 
     function deleteTask(id){
-        if (id === tasks.filter(task => task.id === id )){
-            tasks.splice(id, 1); //supprime
-            console.log(`Tâche avec ID ${id} supprimée.`);//affiche dans la console que la tâche à était supprimer
-        } else{
-            console.error("Introuvable");    
+        // if (tasks.filter(task => task.id === id )){
+        //     tasks.splice(id, 1); //supprime
+        //     console.log(`Tâche avec ID ${id} supprimée.`);//affiche dans la console que la tâche à était supprimer
+        // } else{
+        //     console.error("Introuvable");    
+        // }
+        console.log(id);
+        const index = tasks.findIndex(task => task.id === Number(id));
+        console.log("indexxxx",index);
+        if (index !== -1) {
+            // Si une tâche avec cet id est trouvée, la supprimer
+            tasks.splice(index, 1);
+            generateTask();
+            console.log(`Tâche avec l'ID ${id} supprimée.`);
+        } else {
+            // Si la tâche n'est pas trouvée
+            console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
         }
+
     }
     
     // ouvrir la div de modification/suppression d'une tache
