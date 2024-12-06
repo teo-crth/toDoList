@@ -45,6 +45,7 @@ const generateTask = () => {
         html_containerModificationOfTask.classList.add('container-modificationOfaTask', 'hidden');
         html_buttonModifyTask.classList.add('modify-task-button');
         html_buttonDelete.classList.add('delete-task-button');
+        html_buttonDelete.setAttribute('data-id', task.id);
 
         // Append elements
         html_section.appendChild(html_taskArticle);
