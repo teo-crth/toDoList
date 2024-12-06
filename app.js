@@ -72,5 +72,25 @@ const generateTask = () => {
 
     });
 }
-
 generateTask();
+
+
+const buttonDelete = document.getElementById("delete-task-button");
+let id = buttonDelete.dataset.id;
+
+function deleteTask(id){
+    if (id === tasks.filter(task => task.id === id )){
+        tasks.splice(id, 1); //supprime
+        console.log(`Tâche avec ID ${id} supprimée.`);//affiche dans la console que la tâche à était supprimer
+    } else{
+        console.error("Introuvable");    
+    }
+   
+}
+
+buttonDelete.addEventListener('click', () => {
+    deleteTask(id);
+});
+
+
+
