@@ -5,3 +5,89 @@
     --color-yellow: #FEF503;
     --color-orange: #FEC606;
  }
+
+ main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+ }
+
+ .container-sections {
+   flex-direction: row;
+ }
+
+ .hidden {
+    display: none;
+ }
+
+.container-main-title, 
+.container-kanban-title, 
+.container-add-icone, 
+.container-sections {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+h1 {
+   color: var(--color-orange);
+   font-size: 2rem;
+   font-weight: bold;
+   text-align: center;
+}
+
+section {
+   margin: 0 auto;
+   padding: 1rem;
+   width: 30%;
+   background-color: var(--color-light-blue);
+   max-height: 70vh;
+}
+
+article {
+   display: flex;
+   flex-direction: column;
+   width: 90%;
+   justify-content: start;
+   align-items: center;
+}
+
+.container-kanban-title {
+    margin-bottom: 1rem;
+ }
+
+ .state-title {
+    color: var(--color-dark-blue);
+    font-size: 1.5rem;
+    font-weight: bold;
+ }
+
+ .container-task-header {
+   display: flex;
+   flex-direction: row;
+
+ }
+
+ .container-modificationOfaTask {
+
+ }
+
+ .container-add-icone {
+
+ }
+
+ #add-icone {
+
+ }
+
+ .task-name {
+
+ }
+
+ .modify-icon {
+
+ }

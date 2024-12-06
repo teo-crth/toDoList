@@ -9,6 +9,55 @@
     <script src="app.js" defer></script>
 </head>
 <body>
-    
+    <header>
+        <div class="container-main-title">
+            <h1>To do list</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container-sections">
+            <section>
+                <div class="container-kanban-title">
+                    <h2 class="state-title">à faire</h2>
+                </div>
+                <article>
+                    <div class="container-task-header">
+                        <h3 class="task-name"></h3>
+                        <span class="modify-icon"></span>
+                    </div>
+                    <div class="container-modificationOfaTask hidden">
+                        <span class="modification-icone"></span>
+                    </div>
+                    <div class="container-add-icone">
+                        <span id="add-icone"></span>
+                    </div>
+                </article>
+            </section>
+            <section>
+                <div class="container-kanban-title">
+                    <h2 class="state-title">En cours</h2>
+                </div>
+            
+            </section>
+            <section>
+                <div class="container-kanban-title">
+                    <h2 class="state-title">Terminé</h2>
+                </div>
+            
+            </section>
+        </div>
+        <div class="container-popup-task">
+            <h3 id="popup-task-name"></h3>
+            <input type="text" id="popup-input-description">
+            <input type="" id="popup-input-color">
+            <input type="" id="popup-input-font">
+            <button></button>
+        </div>
+    </main>
+    <footer>
+        <div class="container-footer">
+            <p>© 2024 - To do list</p>
+        </div>
+    </footer>
 </body>
 </html>
