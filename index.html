@@ -18,38 +18,42 @@
     </header>
     <main>
         <div class="container-sections">
-            <section>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
                     <h2 class="state-title" id="to-do">à faire</h2>
                 </div>
-                <article>
-                    <div class="container-task-header">
-                        <h3 class="task-name">Tache 1</h3>
-                        <span class="modify-icon">...</span>
-                    </div>
-                    <div class="container-task-body">
-                        <p class="description-task">Description de la carte</p>
-                    </div>
-                    <!-- pop up de modification -->
-                    <div class="container-add-icone">
-                        <span id="add-icone"></span>
-                        <button id="modify-task-button">Modifier</button>
-                        <button id="delete-task-button">Supprimer</button>
-                    </div>
-                </article>
-            </section>
-            <section>
+                <section id="fisrt-section">
+                    <article>
+                        <div class="container-task-header">
+                            <h3 class="task-name">Tache 1</h3>
+                            <span class="modify-icon">...</span>
+                        </div>
+                        <div class="container-task-body">
+                            <p class="description-task">Description de la carte</p>
+                        </div>
+                        <!-- pop up de modification -->
+                        <div class="container-add-icone">
+                            <span id="add-icone"></span>
+                            <button id="modify-task-button">Modifier</button>
+                            <button id="delete-task-button">Supprimer</button>
+                        </div>
+                    </article>
+                </section>
+            </div>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
-                    <h2 class="state-title">En cours</h2>
+                <h2 class="state-title">En cours</h2>
                 </div>
-
-            </section>
-            <section>
+                <section id="second-section">
+                </section>
+            </div>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
                     <h2 class="state-title">Terminé</h2>
                 </div>
-
-            </section>
+                <section id="third-section">
+                </section>
+            </div>
         </div>
         <div class="container-popup-task hidden">
             <input type="text" id="popup-task-name">

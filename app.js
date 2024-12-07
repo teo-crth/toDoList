@@ -28,7 +28,7 @@
     const generateTask = () => {
         
         const html_section = document.querySelector('section');
-        // Supprimer les tâches existantes en vidant la section mais cela créer un bug sur les index. 
+        html_section.innerHTML = '';
 
         tasks.forEach(task => {
             
@@ -82,6 +82,7 @@
             
         });
     }
+
     generateTask();
     
     // Supprimer une tâche
@@ -99,12 +100,7 @@
     }
 
     function deleteTask(id){
-        // if (tasks.filter(task => task.id === id )){
-        //     tasks.splice(id, 1); //supprime
-        //     console.log(`Tâche avec ID ${id} supprimée.`);//affiche dans la console que la tâche à était supprimer
-        // } else{
-        //     console.error("Introuvable");    
-        // }
+        
         console.log(id);
         const index = tasks.findIndex(task => task.id === Number(id));
         console.log("indexxxx",index);
@@ -127,7 +123,7 @@
     for (let i = 0; i < html_modifyIcone.length; i++) {
         html_modifyIcone[i].addEventListener('click', () => {
             // Cible le conteneur correspondant en utilisant l'index
-            html_containerModificationOfTask[i - 1].classList.toggle('hidden');
+            html_containerModificationOfTask[i].classList.toggle('hidden');
         });
     }
 
@@ -165,7 +161,7 @@ const title = document.getElementById("popup-task-name");
 const button = document.getElementById("button-submit");
 
 button.addEventListener("click", (event) => {
-//   event.preventDefault();
+  event.preventDefault();
 
   const newTask = {
     id: tasks.length + 1,
