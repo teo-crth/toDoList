@@ -28,7 +28,8 @@
     const generateTask = () => {
         
         const html_section = document.querySelector('section');
-        
+        // Supprimer les tâches existantes en vidant la section mais cela créer un bug sur les index. 
+
         tasks.forEach(task => {
             
             const html_taskArticle = document.createElement('article');
