@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
+
 <body>
     <header>
         <div class="container-main-title">
@@ -16,43 +18,66 @@
     </header>
     <main>
         <div class="container-sections">
-            <section>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
-                    <h2 class="state-title">à faire</h2>
+                    <h2 class="state-title" id="to-do">à faire</h2>
                 </div>
-                <article>
-                    <div class="container-task-header">
-                        <h3 class="task-name">Tache 1</h3>
-                        <span class="modify-icon">...</span>
-                    </div>
-                    <div class="container-task-body">
-                        <p class="description-task">Description de la carte</p>
-                    </div>
-                    <div class="container-modificationOfaTask hidden">
-                        <button id="modify-task-button">Modifier</button>
-                        <button id="delete-task-button">Supprimer</button>
-                    </div>
-                </article>
-            </section>
-            <section>
+                <section id="fisrt-section">
+                    <article>
+                        <div class="container-task-header">
+                            <h3 class="task-name">Tache 1</h3>
+                            <span class="modify-icon">...</span>
+                        </div>
+                        <div class="container-task-body">
+                            <p class="description-task">Description de la carte</p>
+                        </div>
+                        <!-- pop up de modification -->
+                        <div class="container-add-icone">
+                            <span id="add-icone"></span>
+                            <button id="modify-task-button">Modifier</button>
+                            <button id="delete-task-button">Supprimer</button>
+                        </div>
+                    </article>
+                </section>
+            </div>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
-                    <h2 class="state-title">En cours</h2>
+                <h2 class="state-title">En cours</h2>
                 </div>
-                
-            </section>
-            <section>
+                <section id="second-section">
+                </section>
+            </div>
+            <div class="container-section-and-title">
                 <div class="container-kanban-title">
                     <h2 class="state-title">Terminé</h2>
                 </div>
-                
-            </section>
+                <section id="third-section">
+                </section>
+            </div>
         </div>
         <div class="container-popup-task hidden">
-            <h3 id="popup-task-name"></h3>
-            <input type="text" id="popup-input-description">
-            <input type="" id="popup-input-color">
-            <input type="" id="popup-input-font">
-            <button></button>
+            <div class="container-form">
+                <span id="close-popup-add-task">X</span>
+                <h2>Ajouter une tâche</h2>
+                <label for="popup-task-name">Nom de la tâche</label>
+                <input type="text" id="popup-task-name">
+
+                <label for="popup-input-description">Description</label>
+                <input type="text" id="popup-input-description">
+                <label for="popup-input-color">Couleur</label>
+                <select name="color" id="popup-input-color">
+                    <option value="blue">Bleu</option>
+                    <option value="green">Vert</option>
+                    <option value="orange">Orange</option>
+                </select>
+                <label for="popup-input-font">Police</label>
+                <select name="font" id="popup-input-font">
+                    <option value="arial">Arial</option>
+                    <option value="helvetica">Garamond</option>
+                    <option value="lato">Lato</option>
+                </select>
+                <button type="submit" id="button-submit">Valider</button>
+            </div>
         </div>
         <div class="container-add-icone">
             <span id="add-icone">+</span>
@@ -64,4 +89,5 @@
         </div>
     </footer>
 </body>
+
 </html>
