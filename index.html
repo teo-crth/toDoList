@@ -56,19 +56,28 @@
             </div>
         </div>
         <div class="container-popup-task hidden">
-            <input type="text" id="popup-task-name">
-            <input type="text" id="popup-input-description">
-            <select name="color" id="popup-input-color">
-                <option value="blue">Bleu</option>
-                <option value="green">Vert</option>
-                <option value="orange">Orange</option>
-            </select>
-            <select name="font" id="popup-input-font">
-                <option value="arial">Arial</option>
-                <option value="helvetica">Helvetica</option>
-                <option value="lato">Lato</option>
-            </select>
-            <button type="submit" id="button-submit">Valider</button>
+            <div class="container-form">
+                <span id="close-popup-add-task">X</span>
+                <h2>Ajouter une tâche</h2>
+                <label for="popup-task-name">Nom de la tâche</label>
+                <input type="text" id="popup-task-name">
+
+                <label for="popup-input-description">Description</label>
+                <input type="text" id="popup-input-description">
+                <label for="popup-input-color">Couleur</label>
+                <select name="color" id="popup-input-color">
+                    <option value="blue">Bleu</option>
+                    <option value="green">Vert</option>
+                    <option value="orange">Orange</option>
+                </select>
+                <label for="popup-input-font">Police</label>
+                <select name="font" id="popup-input-font">
+                    <option value="arial">Arial</option>
+                    <option value="helvetica">Helvetica</option>
+                    <option value="lato">Lato</option>
+                </select>
+                <button type="submit" id="button-submit">Valider</button>
+            </div>
         </div>
         <div class="container-add-icone">
             <span id="add-icone">+</span>

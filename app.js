@@ -176,4 +176,11 @@ button.addEventListener("click", (event) => {
   console.log("tableau des taches :", tasks);
   popUpForm.classList.add("hidden");
   generateTask();
+  
 });
+
+// Fermer la pop d'ajout d'une tâche
+  const closePopUpIcone = document.getElementById("close-popup-add-task");
+  closePopUpIcone.addEventListener("click", () => {
+      popUpForm.classList.add("hidden");
+  });
