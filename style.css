@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+ 
  :root{
     --color-dark-blue: #082bcb;
     --color-blue: #2599FB;
     --color-light-blue: #AAD9F9;
     --color-yellow: #FEF503;
     --color-orange: #FEC606;
+    --font-arial: 'arimo', sans-serif;
+    --font-lato: 'lato', sans-serif;
+    --font-garamond: 'cormorant garamond', serif;
  }
 
  header {
@@ -14,7 +19,7 @@
  body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: var(--font-arial);
  }
 
  main {
@@ -57,10 +62,11 @@
    }
    
    h1 {
-      color: black;
+      color: white;
       font-size: 2rem;
       font-weight: bold;
       text-align: center;
+      letter-spacing: 0.5rem;
    }
 
    .container-section-and-title {

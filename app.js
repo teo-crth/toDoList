@@ -133,8 +133,9 @@
     for (let i = 0; i < html_closeEditTask.length; i++) {
         html_closeEditTask[i].addEventListener('click', () => {
             // Fermer le conteneur correspondant
-            html_containerModificationOfTask[i].classList.add('hidden');
-            console.log('Fermer bouton' + i);
+            Array.from(html_containerModificationOfTask).forEach(elem => {
+                elem.classList.add('hidden');
+            });
         });
     }
 
