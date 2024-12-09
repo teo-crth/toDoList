@@ -166,7 +166,7 @@
       color: white;
       background-color: var(--color-orange);
       border-radius: 10px;
-      padding: 0.5rem 0.5rem;
+      padding: 0.5rem 1.5rem;
       border: 1px solid white;
    }
    
@@ -196,12 +196,18 @@
       color: white;
       
    }
-   
+   .container-task-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+
    .container-task-body p {
       color: black;
       font-size: 1.2rem;
       font-weight: 500;
       text-align: justify;
+      width: 95%;
    }
 
 .container-popup-task {
@@ -278,6 +284,10 @@
       
       .container-form {
          width: 40%;
+      }
+
+      .container-modificationOfaTask button {
+         padding: 0.5rem 0.5rem;
       }
       
 }
