@@ -91,8 +91,6 @@ const generateTask = () => {
   });
 };
 
-generateTask();
-
 // Gestion des événements avec event delegation
 document.querySelector("section").addEventListener("click", (event) => {
   const target = event.target;
@@ -229,5 +227,25 @@ if (closePopUpIcone) {
   console.error("Élément avec l'ID 'close-popup-add-task' non trouvé.");
 }
 
-generateTask(); // Générer les tâches initiales
-displayPopUp(); // Afficher la pop-up de création de tâche
+//POP UP MODIFICATION
+const buttonModifiedTask = document.getElementsByClassName("modify-task-button");
+const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const closePopUp = document.getElementById("close-popup-modified");
+
+const PopUp = () => {
+    for ( i=0; i < buttonModifiedTask.length; i++){
+        buttonModifiedTask[i].addEventListener("click", () => {
+            popUpFormModified.classList.remove("hidden");
+            document.getElementById("popup-input-description").value = "";
+            document.getElementById("popup-task-name").value = "";
+        });
+    }
+};
+
+closePopUp.addEventListener("click", () => {
+    popUpFormModified.classList.add("hidden");
+});
+
+generateTask();
+displayPopUp();
+PopUp();
