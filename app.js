@@ -121,6 +121,18 @@ document.querySelector('section').addEventListener('click', (event) => {
     }
 });
 
+function deleteTask(id) {
+    console.log(id);
+    const index = tasks.findIndex(task => task.id === Number(id));
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        generateTask();
+        console.log(`Tâche avec l'ID ${id} supprimée.`);
+    } else {
+        console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
+    }
+}
+
 // Ajouter une tâche
 const buttonAddTask = document.getElementById('add-task-icone');
 const popUpForm = document.getElementsByClassName('container-popup-task')[0];
