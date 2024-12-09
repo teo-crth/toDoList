@@ -353,7 +353,11 @@
    border: 1px solid white;
    }
 
+#error-msg {
+  font-size: large;
+  color: red;
+  margin-bottom: 1.5rem;
+}
    .hidden {
       display: none;
    }
-
