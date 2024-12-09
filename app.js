@@ -184,3 +184,35 @@ if (closePopUpIcone) {
 generateTask(); // Générer les tâches initiales
 displayPopUp();
 
+// Fermer la pop d'ajout d'une tâche
+  const closePopUpIcone = document.getElementById("close-popup-add-task");
+  closePopUpIcone.addEventListener("click", () => {
+      popUpForm.classList.add("hidden");
+  });
+
+
+
+
+//POP UP MODIFICATION
+
+const buttonModifiedTask = document.getElementsByClassName("modify-task-button");
+const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const closePopUp = document.getElementById("close-popup-modified");
+
+const PopUp = () => {
+    for ( i=0; i < buttonModifiedTask.length; i++){
+        buttonModifiedTask[i].addEventListener("click", () => {
+        popUpFormModified.classList.remove("hidden");
+        document.getElementById("popup-input-description").value = "";
+        document.getElementById("popup-task-name").value = "";
+         });
+    }
+};
+
+PopUp();
+
+closePopUp.addEventListener("click", () => {
+    popUpFormModified.classList.add("hidden");
+});
+
+
