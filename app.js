@@ -21,96 +21,81 @@ const tasks = [
         state: 'à faire',
         color: 'blue',
     },
+
 ];
 
 // Générer les tâches
 const generateTask = () => {
-    const html_section = document.querySelector('section');
-    html_section.innerHTML = '';
 
-    tasks.forEach(task => {
-        const html_taskArticle = document.createElement('article');
-        const html_containerTaskHeader = document.createElement('div');
-        const html_taskTitle = document.createElement('h3');
-        const html_modifyIcone = document.createElement('span');
-        const html_containerBodyTask = document.createElement('div');
-        const html_descriptionTask = document.createElement('p');
-        const html_containerModificationOfTask = document.createElement('div');
-        const html_buttonModifyTask = document.createElement('button');
-        const html_buttonDelete = document.createElement('button');
-        const html_closeEditTask = document.createElement('span');
+  const html_section = document.querySelector("section");
+  html_section.innerHTML = "";
 
-        // Add classes
-        html_containerTaskHeader.classList.add('container-task-header');
-        html_taskTitle.classList.add('task-name');
-        html_modifyIcone.classList.add('modify-icon');
-        html_containerBodyTask.classList.add('container-task-body');
-        html_descriptionTask.classList.add('description-task');
-        html_containerModificationOfTask.classList.add('container-modificationOfaTask', 'hidden');
-        html_buttonModifyTask.classList.add('modify-task-button');
-        html_buttonDelete.classList.add('delete-task-button');
-        html_buttonDelete.setAttribute('data-id', task.id);
-        html_closeEditTask.classList.add('close-edit-task');
+  tasks.forEach((task) => {
+    const html_taskArticle = document.createElement("article");
+    const html_containerTaskHeader = document.createElement("div");
+    const html_taskTitle = document.createElement("h3");
+    const html_modifyIcone = document.createElement("span");
+    const html_containerBodyTask = document.createElement("div");
+    const html_descriptionTask = document.createElement("p");
+    const html_containerModificationOfTask = document.createElement("div");
+    const html_buttonModifyTask = document.createElement("button");
+    const html_buttonDelete = document.createElement("button");
+    const html_closeEditTask = document.createElement("span");
 
-        // Append elements
-        html_section.appendChild(html_taskArticle);
-        html_taskArticle.appendChild(html_containerTaskHeader);
-        html_taskArticle.appendChild(html_containerBodyTask);
-        html_taskArticle.appendChild(html_containerModificationOfTask);
+    // Add classes
+    html_containerTaskHeader.classList.add("container-task-header");
+    html_taskTitle.classList.add("task-name");
+    html_modifyIcone.classList.add("modify-icon");
+    html_containerBodyTask.classList.add("container-task-body");
+    html_descriptionTask.classList.add("description-task");
+    html_containerModificationOfTask.classList.add(
+      "container-modificationOfaTask",
+      "hidden"
+    );
+    html_buttonModifyTask.classList.add("modify-task-button");
+    html_buttonDelete.classList.add("delete-task-button");
+    html_buttonDelete.setAttribute("data-id", task.id);
+    html_containerTaskHeader.setAttribute("data-id", task.id);
 
-        html_containerTaskHeader.appendChild(html_taskTitle);
-        html_containerTaskHeader.appendChild(html_modifyIcone);
+    html_closeEditTask.classList.add("close-edit-task");
 
-        html_containerBodyTask.appendChild(html_descriptionTask);
+    // Append elements
+    html_section.appendChild(html_taskArticle);
+    html_taskArticle.appendChild(html_containerTaskHeader);
+    html_taskArticle.appendChild(html_containerBodyTask);
+    html_taskArticle.appendChild(html_containerModificationOfTask);
 
-        html_containerModificationOfTask.appendChild(html_buttonModifyTask);
-        html_containerModificationOfTask.appendChild(html_buttonDelete);
-        html_containerModificationOfTask.appendChild(html_closeEditTask);
+    html_containerTaskHeader.appendChild(html_taskTitle);
+    html_containerTaskHeader.appendChild(html_modifyIcone);
 
-        // Add content
-        html_taskTitle.textContent = task.title;
-        html_descriptionTask.textContent = task.description;
-        html_modifyIcone.textContent = '...';
-        html_closeEditTask.textContent = 'X';
-        html_buttonModifyTask.textContent = 'Modifier';
-        html_buttonDelete.textContent = 'Supprimer';
-    });
+    html_containerBodyTask.appendChild(html_descriptionTask);
+
+    html_containerModificationOfTask.appendChild(html_buttonModifyTask);
+    html_containerModificationOfTask.appendChild(html_buttonDelete);
+    html_containerModificationOfTask.appendChild(html_closeEditTask);
+
+    // Add content
+    html_taskTitle.textContent = task.title;
+    html_descriptionTask.textContent = task.description;
+    html_modifyIcone.textContent = "...";
+    html_closeEditTask.textContent = "X";
+    html_buttonModifyTask.textContent = "Modifier";
+    html_buttonDelete.textContent = "Supprimer";
+
+    if (task.color === "green") {
+      html_containerTaskHeader.style.backgroundColor = "green";
+    } else if (task.color === "orange") {
+      html_containerTaskHeader.style.backgroundColor = "var(--color-orange)";
+    } else {
+      html_containerTaskHeader.style.backgroundColor = "var(--color-blue)";
+    }
+    console.log("conteneur à modifier au clic:", html_containerTaskHeader);
+
+    return;
+  });
 };
 
-// Gestion des événements avec event delegation
-document.querySelector('section').addEventListener('click', (event) => {
-    const target = event.target;
-
-    // Supprimer une tâche
-    if (target.classList.contains('delete-task-button')) {
-        const id = target.dataset.id;
-        deleteTask(id);
-    }
-
-    // Afficher/Masquer le conteneur de modification
-    if (target.classList.contains('modify-icon')) {
-        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
-        taskContainer.classList.toggle('hidden');
-    }
-
-    // Fermer le conteneur de modification
-    if (target.classList.contains('close-edit-task')) {
-        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
-        taskContainer.classList.add('hidden');
-    }
-});
-
-function deleteTask(id) {
-    console.log(id);
-    const index = tasks.findIndex(task => task.id === Number(id));
-    if (index !== -1) {
-        tasks.splice(index, 1);
-        generateTask();
-        console.log(`Tâche avec l'ID ${id} supprimée.`);
-    } else {
-        console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
-    }
-}
+generateTask();
 
 // Ajouter une tâche
 const buttonAddTask = document.getElementById('add-task-icone');
@@ -118,6 +103,7 @@ const popUpForm = document.getElementsByClassName('container-popup-task')[0];
 const description = document.getElementById('popup-input-description');
 const title = document.getElementById('popup-task-name');
 const button = document.getElementById('button-submit');
+const color = document.querySelector("#popup-input-color");
     
 button.addEventListener("click", (event) => {
     event.preventDefault();
@@ -161,3 +147,4 @@ if (closePopUpIcone) {
 
 generateTask(); // Générer les tâches initiales
 displayPopUp();
+
