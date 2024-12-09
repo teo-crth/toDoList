@@ -113,7 +113,7 @@ button.addEventListener("click", (event) => {
         title: title.value,
         description: description.value,
         state: "à faire",
-        color: "blue",
+        color: color.value,
     };
     
     tasks.push(newTask);
