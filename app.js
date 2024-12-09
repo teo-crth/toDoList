@@ -185,3 +185,41 @@ button.addEventListener("click", (event) => {
   closePopUpIcone.addEventListener("click", () => {
       popUpForm.classList.add("hidden");
   });
+
+
+
+
+//POP UP MODIFICATION
+
+const buttonModifiedTask = document.getElementsByClassName("modify-task-button");
+const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const closePopUp = document.getElementById("close-popup-modified");
+
+const PopUp = () => {
+    for ( i=0; i < buttonModifiedTask.length; i++){
+        buttonModifiedTask[i].addEventListener("click", () => {
+        popUpFormModified.classList.remove("hidden");
+        document.getElementById("popup-input-description").value = "";
+        document.getElementById("popup-task-name").value = "";
+         });
+    }
+};
+
+PopUp();
+
+closePopUp.addEventListener("click", () => {
+    popUpFormModified.classList.add("hidden");
+});
+
+// const buttonSubmitModified = document.getElementById("button-submit-modified");
+
+// buttonSubmitModified.addEventListener("click", () => {
+//     const index = tasks.findIndex(task => task.id === currentTaskId);
+//     if (index !== -1) {
+//         tasks[index].title = titleModified.value;
+//         tasks[index].description = descriptionModified.value;
+//         popUpFormModified.classList.add("hidden");
+//         generateTask();
+//     }
+// });
+
