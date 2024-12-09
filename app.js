@@ -211,15 +211,7 @@ closePopUp.addEventListener("click", () => {
     popUpFormModified.classList.add("hidden");
 });
 
-// const buttonSubmitModified = document.getElementById("button-submit-modified");
 
-// buttonSubmitModified.addEventListener("click", () => {
-//     const index = tasks.findIndex(task => task.id === currentTaskId);
-//     if (index !== -1) {
-//         tasks[index].title = titleModified.value;
-//         tasks[index].description = descriptionModified.value;
-//         popUpFormModified.classList.add("hidden");
-//         generateTask();
-//     }
-// });
+
+
 
