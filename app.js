@@ -97,6 +97,30 @@ const generateTask = () => {
 
 generateTask();
 
+
+// Gestion des événements avec event delegation
+document.querySelector('section').addEventListener('click', (event) => {
+    const target = event.target;
+
+    // Supprimer une tâche
+    if (target.classList.contains('delete-task-button')) {
+        const id = target.dataset.id;
+        deleteTask(id);
+    }
+
+    // Afficher/Masquer le conteneur de modification
+    if (target.classList.contains('modify-icon')) {
+        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+        taskContainer.classList.toggle('hidden');
+    }
+
+    // Fermer le conteneur de modification
+    if (target.classList.contains('close-edit-task')) {
+        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+        taskContainer.classList.add('hidden');
+    }
+});
+
 // Ajouter une tâche
 const buttonAddTask = document.getElementById('add-task-icone');
 const popUpForm = document.getElementsByClassName('container-popup-task')[0];
