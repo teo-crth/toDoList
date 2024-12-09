@@ -115,7 +115,11 @@ const generateTask = () => {
 
 
 // Gestion des événements avec event delegation
-document.querySelector('section').addEventListener('click', (event) => {
+const sections = document.querySelectorAll('#first-section, #second-section, #third-section');
+console.log(sections)
+
+for( i=0; i < sections.length; i++){
+    sections[i].addEventListener('click', (event) => {
     const target = event.target;
     
     // Supprimer une tâche
@@ -136,6 +140,7 @@ document.querySelector('section').addEventListener('click', (event) => {
         taskContainer.classList.add('hidden');
     }
 });
+}
 
 function deleteTask(id) {
     console.log(id);
@@ -201,13 +206,14 @@ if (closePopUpIcone) {
 
 //POP UP MODIFICATION
 
-const buttonModifiedTask = document.getElementsByClassName("modify-task-button");
+const buttonModifiedTasks = document.getElementsByClassName("modify-task-button");
 const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
 const closePopUp = document.getElementById("close-popup-modified");
 
+
 const PopUp = () => {
-    for ( i=0; i < buttonModifiedTask.length; i++){
-        buttonModifiedTask[i].addEventListener("click", () => {
+    for ( i=0; i < buttonModifiedTasks.length; i++){
+        buttonModifiedTasks[i].addEventListener("click", () => {
             popUpFormModified.classList.remove("hidden");
             document.getElementById("popup-input-description").value = "";
             document.getElementById("popup-task-name").value = "";
@@ -222,5 +228,5 @@ closePopUp.addEventListener("click", () => {
 
 
 generateTask();
-displayPopUp();
 PopUp();
+displayPopUp();
