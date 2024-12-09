@@ -113,34 +113,47 @@ const generateTask = () => {
   });
 };
 
-
 // Gestion des événements avec event delegation
 const sections = document.querySelectorAll('#first-section, #second-section, #third-section');
-console.log(sections)
+const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const closePopUp = document.getElementById("close-popup-modified");
 
-for( i=0; i < sections.length; i++){
-    sections[i].addEventListener('click', (event) => {
-    const target = event.target;
-    
-    // Supprimer une tâche
-    if (target.classList.contains('delete-task-button')) {
-        const id = target.dataset.id;
-        deleteTask(id);
-    }
-    
-    // Afficher/Masquer le conteneur de modification
-    if (target.classList.contains('modify-icon')) {
-        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
-        taskContainer.classList.toggle('hidden');
-    }
-    
-    // Fermer le conteneur de modification
-    if (target.classList.contains('close-edit-task')) {
-        const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
-        taskContainer.classList.add('hidden');
-    }
+// Boucle pour chaque section
+sections.forEach(section => {
+    section.addEventListener('click', (event) => {
+        const target = event.target;
+
+        // Supprimer une tâche
+        if (target.classList.contains('delete-task-button')) {
+            const id = target.dataset.id;
+            deleteTask(id);
+        }
+
+        // Afficher/Masquer le conteneur de modification
+        if (target.classList.contains('modify-icon')) {
+            const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+            taskContainer.classList.toggle('hidden');
+        }
+
+        // Fermer le conteneur de modification
+        if (target.classList.contains('close-edit-task')) {
+            const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+            taskContainer.classList.add('hidden');
+        }
+
+        // Ouvrir le pop-up de modification
+        if (target.classList.contains('modify-task-button')) {
+            popUpFormModified.classList.remove('hidden');
+            document.getElementById("popup-input-description").value = "";
+            document.getElementById("popup-task-name").value = "";
+        }
+    });
 });
-}
+
+// Fermer le pop-up de modification
+closePopUp.addEventListener("click", () => {
+    popUpFormModified.classList.add("hidden");
+});
 
 function deleteTask(id) {
     console.log(id);
@@ -206,27 +219,10 @@ if (closePopUpIcone) {
 
 //POP UP MODIFICATION
 
-const buttonModifiedTasks = document.getElementsByClassName("modify-task-button");
-const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
-const closePopUp = document.getElementById("close-popup-modified");
-
-
-const PopUp = () => {
-    for ( i=0; i < buttonModifiedTasks.length; i++){
-        buttonModifiedTasks[i].addEventListener("click", () => {
-            popUpFormModified.classList.remove("hidden");
-            document.getElementById("popup-input-description").value = "";
-            document.getElementById("popup-task-name").value = "";
-        });
-    }
-};
-
-
 closePopUp.addEventListener("click", () => {
     popUpFormModified.classList.add("hidden");
 });
 
 
 generateTask();
-PopUp();
 displayPopUp();
