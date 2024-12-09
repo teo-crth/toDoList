@@ -169,7 +169,7 @@
       border: 1px solid white;
    }
    
-   #add-icone {
+   #add-task-icone {
       cursor: pointer;
       font-size: 6rem;
       color: white;
@@ -181,7 +181,7 @@
       
    }
    
-   #add-icone:hover {
+   #add-task-icone:hover {
       background-color: orange;
    }
    
@@ -258,19 +258,16 @@
       color: var(--color-orange);
    }
    
-   .hidden {
-      display: none;
-   }
-
+   
    @media screen and (min-width: 768px) {
       .container-sections {
          flex-direction: row;
       }
-
+      
       .container-kanban-title{
          width: 100%;
       }
-
+      
       .container-section-and-title {
          width: 30%;
       }
@@ -278,9 +275,13 @@
       section {
          width: 90%;
       }
-
+      
       .container-form {
          width: 40%;
       }
       
+}
+
+.hidden {
+   display: none;
 }
