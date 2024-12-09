@@ -184,14 +184,6 @@ if (closePopUpIcone) {
 generateTask(); // Générer les tâches initiales
 displayPopUp();
 
-// Fermer la pop d'ajout d'une tâche
-  const closePopUpIcone = document.getElementById("close-popup-add-task");
-  closePopUpIcone.addEventListener("click", () => {
-      popUpForm.classList.add("hidden");
-  });
-
-
-
 
 //POP UP MODIFICATION
 
