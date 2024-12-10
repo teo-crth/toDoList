@@ -455,7 +455,7 @@
    }
 
 
-#button-submit{
+#button-submit,#button-submit-modified{
    cursor: pointer;
    font-size: 1rem;
    font-weight: 800;
