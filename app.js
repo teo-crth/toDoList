@@ -32,7 +32,7 @@ const generateTask = () => {
     const html_section_1 = document.getElementById("first-section");
     const html_section_2 = document.getElementById("second-section");
     const html_section_3 = document.getElementById("third-section");
-    
+
     html_section_1.innerHTML = "";
     html_section_2.innerHTML = "";  
     html_section_3.innerHTML = "";
@@ -64,6 +64,7 @@ const generateTask = () => {
         html_buttonDelete.classList.add("delete-task-button");
         html_buttonDelete.setAttribute("data-id", task.id);
         html_containerTaskHeader.setAttribute("data-id", task.id);
+        html_taskArticle.setAttribute("draggable", "true");  // Rendre la tâche déplaçable
         
         html_closeEditTask.classList.add("close-edit-task");
 
@@ -106,6 +107,17 @@ const generateTask = () => {
     } else {
       html_containerTaskHeader.style.backgroundColor = "var(--color-blue)";
     }
+
+    // Add dragstart event to store the task's current state
+    html_taskArticle.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("taskId", task.id);  // Stocke l'ID de la tâche pour le transfert
+      e.target.style.opacity = "1";  // Effet visuel lors du drag
+    });
+
+    html_taskArticle.addEventListener("dragend", (e) => {
+        e.target.style.opacity = "1";  // Réinitialise l'opacité après le drag
+    });
+
     return;
   });
 };
@@ -143,6 +155,31 @@ sections.forEach(section => {
             popUpFormModified.classList.remove('hidden');
             document.getElementById("popup-input-description").value = "";
             document.getElementById("popup-task-name").value = "";
+        }
+    });
+});
+
+// Permettre le drag and drop entre les sections
+sections.forEach(section => {
+    section.addEventListener('dragover', (e) => {
+        e.preventDefault();  // Permet à l'élément d'être déposé sur la section
+    });
+
+    section.addEventListener('drop', (e) => {
+        e.preventDefault();  // Empêche le comportement par défaut
+        const taskId = e.dataTransfer.getData("taskId");  // Récupère l'ID de la tâche
+        const task = tasks.find(t => t.id === Number(taskId));  // Recherche la tâche par son ID
+
+        if (task) {
+            // Change l'état de la tâche en fonction de la section où elle est déposée
+            if (section.id === "first-section") {
+                task.state = "à faire";
+            } else if (section.id === "second-section") {
+                task.state = "en cours";
+            } else if (section.id === "third-section") {
+                task.state = "terminé";
+            }
+            generateTask();  // Récupère les tâches avec leur nouvel état
         }
     });
 });
