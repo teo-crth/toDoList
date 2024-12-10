@@ -1,46 +1,64 @@
 // TABLEAU DES TACHES
 const tasks = [
-    {
-        id: 1,
-        title: 'Tâche 1',
-        description: 'iiiiiiiiiiiiiiiiiiiiiiiiiiii',
-        state: 'à faire',
-        color: 'blue',
-        category: '',
-        priority: 'hight',
-    },
-    {
-        id: 2,
-        title: 'Tâche 2',
-        description: 'blblablabalalbalbalab',
-        state: 'à faire',
-        color: 'blue',
-        category: '',
-        priority: 'low',
-    },
-    {
-        id: 3,
-        title: 'Tâche 3',
-        description: 'oooooooooooooooooo',
-        state: 'en cours',
-        color: 'blue',
-        category: '',
-        priority: 'medium',
-    },
-
+  {
+      id: 1,
+      title: 'Tâche 1',
+      description: 'iiiiiiiiiiiiiiiiiiiiiiiiiiii',
+      state: 'à faire',
+      color: 'blue',
+      category: 'Travail',
+      priority: 'hight',
+  },
+  {
+    id: 2,
+    title: 'Tâche 2',
+    description: 'blblablabalalbalbalab',
+    state: 'à faire',
+    color: 'blue',
+    category: 'perso',
+    priority: 'low',
+  },
+  {
+    id: 3,
+    title: 'Tâche 3',
+    description: 'oooooooooooooooooo',
+    state: 'en cours',
+    color: 'blue',
+    category: 'telle',
+    priority: 'medium',
+  },
+      
 ];
-
+    
 // Trier les tâches par priorité
 tasks.sort((a, b) => {
   const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
   return priorityOrder[a.priority] - priorityOrder[b.priority];
 });
 
-// Générer les tâches
-const generateTask = () => {
-  const html_section = document.querySelectorAll("section");
-  html_section.innerHTML = "";
+// Fonction pour afficher les tâches filtrées par catégorie
+const filterTasksByCategory = () => {
+  const submitFilterButton = document.getElementById("filter-submitButton"); // Bouton pour appliquer le filtre
+  const selectedCategory = document.getElementById("category-input-filter"); // Le sélecteur de catégorie (assurez-vous que c'est le bon ID)
+  
+  submitFilterButton.addEventListener("click", () => {
+    // Récupère la catégorie sélectionnée
+    const categoryValue = selectedCategory.value;
 
+    // Filtrer les tâches en fonction de la catégorie sélectionnée
+    const filteredTasks = categoryValue === "all" 
+      ? tasks // Si "all" est sélectionné, affiche toutes les tâches
+      : tasks.filter(task => task.category === categoryValue); // Sinon, filtre les tâches par catégorie
+
+    // Regénérer les tâches dans les sections
+    generateTask(filteredTasks);
+    filterCategory.classList.add("hidden"); // Masquer le conteneur de filtre
+
+  });
+};
+
+// Générer les tâches
+const generateTask = (filteredTasks = tasks) => {
   const html_section_1 = document.getElementById("first-section");
   const html_section_2 = document.getElementById("second-section");
   const html_section_3 = document.getElementById("third-section");
@@ -50,7 +68,7 @@ const generateTask = () => {
   html_section_3.innerHTML = "";
   
   
-  tasks.forEach((task) => {
+  filteredTasks.forEach((task) => {
     const html_taskArticle = document.createElement("article");
     const html_containerTaskHeader = document.createElement("div");
     const html_taskTitle = document.createElement("h3");
@@ -123,7 +141,7 @@ const generateTask = () => {
     html_closeEditTask.textContent = "X";
     html_buttonModifyTask.textContent = "Modifier";
     html_buttonDelete.textContent = "Supprimer";
-    html_textCategory.textContent = task.category;
+    html_textCategory.textContent = `Catégorie : ${task.category}`;
 
     // Ajout de la couleur en fonction de la priorité
     if (task.priority === "low") {
@@ -258,7 +276,7 @@ button.addEventListener("click", (event) => {
     description: description.value,
     state: "à faire",
     color: color.value,
-    category: `Catégorie : ${category.value}`,
+    category: category.value,
     priority: priority.value,
   };
 
@@ -305,6 +323,7 @@ button.addEventListener("click", (event) => {
     // Ajouter la tâche seulement si les champs sont remplis
     tasks.push(newTask);
     generateTask();
+    generateCategoriesOptions();
     popUpForm.classList.add("hidden");
   }
 });
@@ -346,5 +365,34 @@ closePopUp.addEventListener("click", () => {
     popUpFormModified.classList.add("hidden");
 });
 
+// FILTRER LES TACHES PAR CATEGORIE
+const filterCategory = document.querySelector(".container-filter-selection");
+const filterButton = document.querySelector(".container-categoryFilter");
+
+filterButton.addEventListener("click", () => {
+  filterCategory.classList.toggle("hidden");
+});
+
+// Fonction pour récupérer les catégories uniques et les ajouter au sélecteur
+const generateCategoriesOptions = () => {
+  const selectInputCategory = document.getElementById("category-input-filter");
+  // Récupérer toutes les catégories des tâches
+  const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
+
+  // Rendre les catégories uniques
+  const uniqueCategories = [...new Set(categories)];
+  
+  // Ajouter une option pour chaque catégorie unique
+  uniqueCategories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    selectInputCategory.appendChild(option);
+  });
+};
+
+
+generateCategoriesOptions();
+filterTasksByCategory();
 generateTask();
 displayPopUp();
