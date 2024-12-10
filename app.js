@@ -24,11 +24,17 @@ const tasks = [
         description: 'oooooooooooooooooo',
         state: 'en cours',
         color: 'blue',
-        category: 'Travail',
+        category: '',
         priority: 'medium',
     },
 
 ];
+
+// Trier les tâches par priorité
+tasks.sort((a, b) => {
+  const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
+  return priorityOrder[a.priority] - priorityOrder[b.priority];
+});
 
 // Générer les tâches
 const generateTask = () => {
@@ -105,7 +111,7 @@ const generateTask = () => {
     html_containerModificationOfTask.appendChild(html_buttonDelete);
     html_containerModificationOfTask.appendChild(html_closeEditTask);
 
-    html_containerBodyTask.appendChild(html_containerCategory);
+    html_containerTaskHeader.appendChild(html_containerCategory);
     html_containerBodyTask.appendChild(html_containerPriority);
     html_containerCategory.appendChild(html_textCategory);
     html_containerPriority.appendChild(html_textPriority);
@@ -252,7 +258,7 @@ button.addEventListener("click", (event) => {
     description: description.value,
     state: "à faire",
     color: color.value,
-    category: category.value,
+    category: `Catégorie : ${category.value}`,
     priority: priority.value,
   };
 
