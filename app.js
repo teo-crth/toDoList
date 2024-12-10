@@ -1,14 +1,47 @@
 // TABLEAU DES TACHES
+
 let tasks = [];
-// Initialisation des id
+
 let newId = 1;
 
-// Générer les tâches
-const generateTask = () => {
-  const html_section = document.querySelector("section");
-  html_section.innerHTML = "";
+// Trier les tâches par priorité
+tasks.sort((a, b) => {
+  const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
+  return priorityOrder[a.priority] - priorityOrder[b.priority];
+});
 
-  tasks.forEach((task) => {
+// Fonction pour afficher les tâches filtrées par catégorie
+const filterTasksByCategory = () => {
+  const submitFilterButton = document.getElementById("filter-submitButton"); // Bouton pour appliquer le filtre
+  const selectedCategory = document.getElementById("category-input-filter"); // Le sélecteur de catégorie (assurez-vous que c'est le bon ID)
+  
+  submitFilterButton.addEventListener("click", () => {
+    // Récupère la catégorie sélectionnée
+    const categoryValue = selectedCategory.value;
+
+    // Filtrer les tâches en fonction de la catégorie sélectionnée
+    const filteredTasks = categoryValue === "all" 
+      ? tasks // Si "all" est sélectionné, affiche toutes les tâches
+      : tasks.filter(task => task.category === categoryValue); // Sinon, filtre les tâches par catégorie
+
+    // Regénérer les tâches dans les sections
+    generateTask(filteredTasks);
+    filterCategory.classList.add("hidden"); // Masquer le conteneur de filtre
+
+  });
+};
+
+// Générer les tâches
+const generateTask = (filteredTasks = tasks) => {
+  const html_section_1 = document.getElementById("first-section");
+  const html_section_2 = document.getElementById("second-section");
+  const html_section_3 = document.getElementById("third-section");
+
+  html_section_1.innerHTML = "";
+  html_section_2.innerHTML = "";  
+  html_section_3.innerHTML = "";
+  
+  filteredTasks.forEach((task) => {
     const html_taskArticle = document.createElement("article");
     const html_containerTaskHeader = document.createElement("div");
     const html_taskTitle = document.createElement("h3");
@@ -19,7 +52,11 @@ const generateTask = () => {
     const html_buttonModifyTask = document.createElement("button");
     const html_buttonDelete = document.createElement("button");
     const html_closeEditTask = document.createElement("span");
-
+    const html_containerCategory = document.createElement("div");
+    const html_containerPriority = document.createElement("div");
+    const html_textCategory = document.createElement("p");
+    const html_textPriority = document.createElement("p");
+    
     // Add classes
     html_containerTaskHeader.classList.add("container-task-header");
     html_taskTitle.classList.add("task-name");
@@ -27,18 +64,31 @@ const generateTask = () => {
     html_containerBodyTask.classList.add("container-task-body");
     html_descriptionTask.classList.add("description-task");
     html_containerModificationOfTask.classList.add(
-      "container-modificationOfaTask",
-      "hidden"
+        "container-modificationOfaTask",
+        "hidden"
     );
     html_buttonModifyTask.classList.add("modify-task-button");
     html_buttonDelete.classList.add("delete-task-button");
     html_buttonDelete.setAttribute("data-id", task.id);
     html_containerTaskHeader.setAttribute("data-id", task.id);
-
+    html_taskArticle.setAttribute("draggable", "true");  // Rendre la tâche déplaçable
     html_closeEditTask.classList.add("close-edit-task");
-
+    html_containerCategory.classList.add("container-category");
+    html_containerPriority.classList.add("container-priority");
+    html_textCategory.classList.add("text-category");
+    html_textPriority.classList.add("text-priority");
+      
     // Append elements
-    html_section.appendChild(html_taskArticle);
+    if (task.state === "à faire"){
+       html_section_1.appendChild(html_taskArticle);     
+    }
+    else if(task.state ==="en cours"){
+        html_section_2.appendChild(html_taskArticle);     
+    }
+    else{
+        html_section_3.appendChild(html_taskArticle);
+    }
+
     html_taskArticle.appendChild(html_containerTaskHeader);
     html_taskArticle.appendChild(html_containerBodyTask);
     html_taskArticle.appendChild(html_containerModificationOfTask);
@@ -52,6 +102,11 @@ const generateTask = () => {
     html_containerModificationOfTask.appendChild(html_buttonDelete);
     html_containerModificationOfTask.appendChild(html_closeEditTask);
 
+    html_containerTaskHeader.appendChild(html_containerCategory);
+    html_containerBodyTask.appendChild(html_containerPriority);
+    html_containerCategory.appendChild(html_textCategory);
+    html_containerPriority.appendChild(html_textPriority);
+
     // Add content
     html_taskTitle.textContent = task.title;
     html_descriptionTask.textContent = task.description;
@@ -59,6 +114,19 @@ const generateTask = () => {
     html_closeEditTask.textContent = "X";
     html_buttonModifyTask.textContent = "Modifier";
     html_buttonDelete.textContent = "Supprimer";
+    html_textCategory.textContent = `Catégorie : ${task.category}`;
+
+    // Ajout de la couleur en fonction de la priorité
+    if (task.priority === "low") {
+      html_containerPriority.style.backgroundColor = "green";
+      html_textPriority.textContent = "Pas urgent";
+    } else if (task.priority === "medium") {
+      html_containerPriority.style.backgroundColor = "orange";
+      html_textPriority.textContent = "Peu urgent";
+    } else {
+      html_containerPriority.style.backgroundColor = "red";
+      html_textPriority.textContent = "Urgent";
+    }
 
     if (task.color === "green") {
       html_containerTaskHeader.style.backgroundColor = "green";
@@ -67,6 +135,17 @@ const generateTask = () => {
     } else {
       html_containerTaskHeader.style.backgroundColor = "var(--color-blue)";
     }
+
+    // Add dragstart event to store the task's current state
+    html_taskArticle.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("taskId", task.id);  // Stocke l'ID de la tâche pour le transfert
+      e.target.style.opacity = "1";  // Effet visuel lors du drag
+    });
+
+    html_taskArticle.addEventListener("dragend", (e) => {
+        e.target.style.opacity = "1";  // Réinitialise l'opacité après le drag
+    });
+
     return;
   });
 };
@@ -87,32 +166,90 @@ const assignAnID = () => {
 };
 
 // Gestion des événements avec event delegation
-document.querySelector("section").addEventListener("click", (event) => {
-  const target = event.target;
+const sections = document.querySelectorAll('#first-section, #second-section, #third-section');
+const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const closePopUp = document.getElementById("close-popup-modified");
+const modifiedTitle = document.getElementById("modified-task-name");
+const modifiedDescription = document.getElementById("modified-input-description");
+const modifiedColor = document.getElementById("modified-input-color");
+const modifiedStatus = document.getElementById("popup-input-state");
+const saveModifiedButton = document.getElementById("button-submit-modified");
+const modifiedPriority = document.getElementById("modified-input-priority");
+const modifiedCategory = document.getElementById("modified-task-category");
 
-  // Supprimer une tâche
-  if (target.classList.contains("delete-task-button")) {
-    const id = target.dataset.id;
-    console.log("dataset", target.dataset);
-    console.log("id suppr --->", id);
-    deleteTask(id);
-  }
+// Boucle pour chaque section
+let currentTaskId = null; // Pour suivre la tâche en cours de modification
 
-  // Afficher/Masquer le conteneur de modification
-  if (target.classList.contains("modify-icon")) {
-    const taskContainer = target
-      .closest("article")
-      .querySelector(".container-modificationOfaTask");
-    taskContainer.classList.toggle("hidden");
-  }
+sections.forEach(section => {
+    section.addEventListener('click', (event) => {
+        const target = event.target;
 
-  // Fermer le conteneur de modification
-  if (target.classList.contains("close-edit-task")) {
-    const taskContainer = target
-      .closest("article")
-      .querySelector(".container-modificationOfaTask");
-    taskContainer.classList.add("hidden");
-  }
+        // Supprimer une tâche
+        if (target.classList.contains('delete-task-button')) {
+            const id = target.dataset.id;
+            deleteTask(id);
+        }
+
+        // Afficher/Masquer le conteneur de modification
+        if (target.classList.contains('modify-icon')) {
+            const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+            taskContainer.classList.toggle('hidden');
+        }
+
+        // Fermer le conteneur de modification
+        if (target.classList.contains('close-edit-task')) {
+            const taskContainer = target.closest('article').querySelector('.container-modificationOfaTask');
+            taskContainer.classList.add('hidden');
+        }
+
+        // Ouvrir le pop-up de modification
+        if (target.classList.contains('modify-task-button')) {
+            const taskId = target.closest('article').querySelector('.delete-task-button').dataset.id;
+            console.log(taskId);
+            popUpFormModified.classList.remove('hidden');
+            document.getElementById("modified-input-description").value = tasks[taskId-1].description;
+            document.getElementById("modified-task-name").value = tasks[taskId-1].title;
+            const taskmodified = tasks.find(t => t.id === Number(taskId));
+            console.log(taskmodified, "taskmodified");
+          
+           
+            if (taskmodified) {
+                popUpFormModified.classList.remove('hidden');
+                modifiedTitle.value = taskmodified.title;
+                modifiedDescription.value = taskmodified.description;
+                modifiedColor.value = taskmodified.color;
+                modifiedStatus.value = taskmodified.state;
+                modifiedPriority.value = taskmodified.priority;
+                modifiedCategory.value = taskmodified.category;
+                currentTaskId = taskmodified.id; // Stocker l'ID de la tâche en cours de modification
+            }
+        }
+    });
+});
+
+// Permettre le drag and drop entre les sections
+sections.forEach(section => {
+    section.addEventListener('dragover', (e) => {
+        e.preventDefault();  // Permet à l'élément d'être déposé sur la section
+    });
+
+    section.addEventListener('drop', (e) => {
+        e.preventDefault();  // Empêche le comportement par défaut
+        const taskId = e.dataTransfer.getData("taskId");  // Récupère l'ID de la tâche
+        const task = tasks.find(t => t.id === Number(taskId));  // Recherche la tâche par son ID
+
+        if (task) {
+            // Change l'état de la tâche en fonction de la section où elle est déposée
+            if (section.id === "first-section") {
+                task.state = "à faire";
+            } else if (section.id === "second-section") {
+                task.state = "en cours";
+            } else if (section.id === "third-section") {
+                task.state = "terminé";
+            }
+            generateTask();  // Récupère les tâches avec leur nouvel état
+        }
+    });
 });
 
 // Ajouter une tâche
@@ -123,6 +260,8 @@ const title = document.getElementById("popup-task-name");
 const button = document.getElementById("button-submit");
 const color = document.querySelector("#popup-input-color");
 const errorMsg = document.querySelector("#error-msg");
+const category = document.querySelector("#popup-task-category");
+const priority = document.querySelector("#popup-input-priority");
 
 button.addEventListener("click", (event) => {
   event.preventDefault();
@@ -133,6 +272,8 @@ button.addEventListener("click", (event) => {
     description: description.value,
     state: "à faire",
     color: color.value,
+    category: category.value,
+    priority: priority.value,
   };
 
   title.addEventListener("input", (event) => {
@@ -179,6 +320,7 @@ button.addEventListener("click", (event) => {
     tasks.push(newTask);
     updateTaskIDs();
     generateTask();
+    generateCategoriesOptions();
     popUpForm.classList.add("hidden");
     assignAnID();
     console.log("message bien long --->", newId);
@@ -203,6 +345,8 @@ const displayPopUp = () => {
     console.log("Bouton cliqué !");
     description.value = "";
     title.value = "";
+    category.value = "";
+    priority.value = "";
   });
 };
 
@@ -217,6 +361,7 @@ if (closePopUpIcone) {
 }
 
 //POP UP MODIFICATION
+
 const buttonModifiedTask =
   document.getElementsByClassName("modify-task-button");
 const popUpFormModified = document.getElementsByClassName(
@@ -234,6 +379,26 @@ const PopUp = () => {
   }
 };
 
+saveModifiedButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const taskIndex = tasks.findIndex(task => task.id === currentTaskId);
+    console.log(taskIndex);
+    // Mettre à jour les informations de la tâche
+    tasks[taskIndex].title = modifiedTitle.value;
+    tasks[taskIndex].description = modifiedDescription.value;
+    tasks[taskIndex].color = modifiedColor.value;
+    tasks[taskIndex].state = modifiedStatus.value;
+    tasks[taskIndex].priority = modifiedPriority.value;
+    tasks[taskIndex].category = modifiedCategory.value;
+
+    // Fermer le pop-up et rafraîchir l'affichage des tâches
+    popUpFormModified.classList.add("hidden");
+    generateTask();
+    currentTaskId = null; // Réinitialiser l'ID de la tâche courante
+});
+
+// Fermer le pop-up de modification
 closePopUp.addEventListener("click", () => {
   popUpFormModified.classList.add("hidden");
 });
@@ -266,7 +431,36 @@ const deleteTask = (id) => {
   saveTasksToLocalStorage();
 };
 
+
+
+// FILTRER LES TACHES PAR CATEGORIE
+const filterCategory = document.querySelector(".container-filter-selection");
+const filterButton = document.querySelector(".container-categoryFilter");
+
+filterButton.addEventListener("click", () => {
+  filterCategory.classList.toggle("hidden");
+});
+
+// Fonction pour récupérer les catégories uniques et les ajouter au sélecteur
+const generateCategoriesOptions = () => {
+  const selectInputCategory = document.getElementById("category-input-filter");
+  // Récupérer toutes les catégories des tâches
+  const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
+
+  // Rendre les catégories uniques
+  const uniqueCategories = [...new Set(categories)];
+  
+  // Ajouter une option pour chaque catégorie unique
+  uniqueCategories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    selectInputCategory.appendChild(option);
+  });
+};
+
 loadTasksFromLocalStorage();
+generateCategoriesOptions();
+filterTasksByCategory();
 generateTask();
 displayPopUp();
-PopUp();
