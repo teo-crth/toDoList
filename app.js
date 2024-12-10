@@ -6,6 +6,8 @@ const tasks = [
         description: 'iiiiiiiiiiiiiiiiiiiiiiiiiiii',
         state: 'à faire',
         color: 'blue',
+        category: '',
+        priority: 'hight',
     },
     {
         id: 2,
@@ -13,6 +15,8 @@ const tasks = [
         description: 'blblablabalalbalbalab',
         state: 'à faire',
         color: 'blue',
+        category: '',
+        priority: 'low',
     },
     {
         id: 3,
@@ -20,55 +24,63 @@ const tasks = [
         description: 'oooooooooooooooooo',
         state: 'en cours',
         color: 'blue',
+        category: 'Travail',
+        priority: 'medium',
     },
 
 ];
 
 // Générer les tâches
 const generateTask = () => {
-    const html_section = document.querySelectorAll("section");
-    html_section.innerHTML = "";
+  const html_section = document.querySelectorAll("section");
+  html_section.innerHTML = "";
 
-    const html_section_1 = document.getElementById("first-section");
-    const html_section_2 = document.getElementById("second-section");
-    const html_section_3 = document.getElementById("third-section");
+  const html_section_1 = document.getElementById("first-section");
+  const html_section_2 = document.getElementById("second-section");
+  const html_section_3 = document.getElementById("third-section");
 
-    html_section_1.innerHTML = "";
-    html_section_2.innerHTML = "";  
-    html_section_3.innerHTML = "";
+  html_section_1.innerHTML = "";
+  html_section_2.innerHTML = "";  
+  html_section_3.innerHTML = "";
+  
+  
+  tasks.forEach((task) => {
+    const html_taskArticle = document.createElement("article");
+    const html_containerTaskHeader = document.createElement("div");
+    const html_taskTitle = document.createElement("h3");
+    const html_modifyIcone = document.createElement("span");
+    const html_containerBodyTask = document.createElement("div");
+    const html_descriptionTask = document.createElement("p");
+    const html_containerModificationOfTask = document.createElement("div");
+    const html_buttonModifyTask = document.createElement("button");
+    const html_buttonDelete = document.createElement("button");
+    const html_closeEditTask = document.createElement("span");
+    const html_containerCategory = document.createElement("div");
+    const html_containerPriority = document.createElement("div");
+    const html_textCategory = document.createElement("p");
+    const html_textPriority = document.createElement("p");
     
-    
-    tasks.forEach((task) => {
-        const html_taskArticle = document.createElement("article");
-        const html_containerTaskHeader = document.createElement("div");
-        const html_taskTitle = document.createElement("h3");
-        const html_modifyIcone = document.createElement("span");
-        const html_containerBodyTask = document.createElement("div");
-        const html_descriptionTask = document.createElement("p");
-        const html_containerModificationOfTask = document.createElement("div");
-        const html_buttonModifyTask = document.createElement("button");
-        const html_buttonDelete = document.createElement("button");
-        const html_closeEditTask = document.createElement("span");
-        
-        // Add classes
-        html_containerTaskHeader.classList.add("container-task-header");
-        html_taskTitle.classList.add("task-name");
-        html_modifyIcone.classList.add("modify-icon");
-        html_containerBodyTask.classList.add("container-task-body");
-        html_descriptionTask.classList.add("description-task");
-        html_containerModificationOfTask.classList.add(
-            "container-modificationOfaTask",
-            "hidden"
-        );
-        html_buttonModifyTask.classList.add("modify-task-button");
-        html_buttonDelete.classList.add("delete-task-button");
-        html_buttonDelete.setAttribute("data-id", task.id);
-        html_containerTaskHeader.setAttribute("data-id", task.id);
-        html_taskArticle.setAttribute("draggable", "true");  // Rendre la tâche déplaçable
-        
-        html_closeEditTask.classList.add("close-edit-task");
-
-        
+    // Add classes
+    html_containerTaskHeader.classList.add("container-task-header");
+    html_taskTitle.classList.add("task-name");
+    html_modifyIcone.classList.add("modify-icon");
+    html_containerBodyTask.classList.add("container-task-body");
+    html_descriptionTask.classList.add("description-task");
+    html_containerModificationOfTask.classList.add(
+        "container-modificationOfaTask",
+        "hidden"
+    );
+    html_buttonModifyTask.classList.add("modify-task-button");
+    html_buttonDelete.classList.add("delete-task-button");
+    html_buttonDelete.setAttribute("data-id", task.id);
+    html_containerTaskHeader.setAttribute("data-id", task.id);
+    html_taskArticle.setAttribute("draggable", "true");  // Rendre la tâche déplaçable
+    html_closeEditTask.classList.add("close-edit-task");
+    html_containerCategory.classList.add("container-category");
+    html_containerPriority.classList.add("container-priority");
+    html_textCategory.classList.add("text-category");
+    html_textPriority.classList.add("text-priority");
+      
     // Append elements
     if (task.state === "à faire"){
        html_section_1.appendChild(html_taskArticle);     
@@ -79,6 +91,7 @@ const generateTask = () => {
     else{
         html_section_3.appendChild(html_taskArticle);
     }
+
     html_taskArticle.appendChild(html_containerTaskHeader);
     html_taskArticle.appendChild(html_containerBodyTask);
     html_taskArticle.appendChild(html_containerModificationOfTask);
@@ -92,6 +105,11 @@ const generateTask = () => {
     html_containerModificationOfTask.appendChild(html_buttonDelete);
     html_containerModificationOfTask.appendChild(html_closeEditTask);
 
+    html_containerBodyTask.appendChild(html_containerCategory);
+    html_containerBodyTask.appendChild(html_containerPriority);
+    html_containerCategory.appendChild(html_textCategory);
+    html_containerPriority.appendChild(html_textPriority);
+
     // Add content
     html_taskTitle.textContent = task.title;
     html_descriptionTask.textContent = task.description;
@@ -99,6 +117,19 @@ const generateTask = () => {
     html_closeEditTask.textContent = "X";
     html_buttonModifyTask.textContent = "Modifier";
     html_buttonDelete.textContent = "Supprimer";
+    html_textCategory.textContent = task.category;
+
+    // Ajout de la couleur en fonction de la priorité
+    if (task.priority === "low") {
+      html_containerPriority.style.backgroundColor = "green";
+      html_textPriority.textContent = "Pas urgent";
+    } else if (task.priority === "medium") {
+      html_containerPriority.style.backgroundColor = "orange";
+      html_textPriority.textContent = "Peu urgent";
+    } else {
+      html_containerPriority.style.backgroundColor = "red";
+      html_textPriority.textContent = "Urgent";
+    }
 
     if (task.color === "green") {
       html_containerTaskHeader.style.backgroundColor = "green";
@@ -209,6 +240,8 @@ const title = document.getElementById("popup-task-name");
 const button = document.getElementById("button-submit");
 const color = document.querySelector("#popup-input-color");
 const errorMsg = document.querySelector("#error-msg");
+const category = document.querySelector("#popup-task-category");
+const priority = document.querySelector("#popup-input-priority");
 
 button.addEventListener("click", (event) => {
   event.preventDefault();
@@ -219,6 +252,8 @@ button.addEventListener("click", (event) => {
     description: description.value,
     state: "à faire",
     color: color.value,
+    category: category.value,
+    priority: priority.value,
   };
 
   title.addEventListener("input", (event) => {
@@ -285,6 +320,8 @@ const displayPopUp = () => {
     console.log("Bouton cliqué !");
     description.value = "";
     title.value = "";
+    category.value = "";
+    priority.value = "";
   });
 };
 

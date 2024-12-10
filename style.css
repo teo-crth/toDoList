@@ -200,6 +200,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      width: 100%;
    }
 
    .container-task-body p {
@@ -263,6 +265,45 @@
       font-size: 2rem;
       font-weight: 800;
       color: var(--color-orange);
+   }
+
+   .container-category {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
+   }
+
+   .container-category p {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: grey;
+      text-align: center;
+   }
+
+   .container-category p:hover {
+      background-color: var(--color-orange);
+      color: white;
+
+   }
+
+   .container-priority {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      border-radius: 0 0 10px 10px;
+      color: white;
+      font-weight: 800;
+      letter-spacing: 3px;
+   }
+
+   .container-priority p {
+      font-size: 0.5rem;
+      font-weight: 800;
+      color: white;
+      text-align: center;
    }
    
    @media screen and (min-width: 768px) {
