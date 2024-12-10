@@ -117,8 +117,15 @@ const generateTask = () => {
 const sections = document.querySelectorAll('#first-section, #second-section, #third-section');
 const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
 const closePopUp = document.getElementById("close-popup-modified");
+const modifiedTitle = document.getElementById("modified-task-name");
+const modifiedDescription = document.getElementById("modified-input-description");
+const modifiedColor = document.getElementById("modified-input-color");
+const modifiedStatus = document.getElementById("popup-input-state");
+const saveModifiedButton = document.getElementById("button-submit-modified");
 
 // Boucle pour chaque section
+let currentTaskId = null; // Pour suivre la tâche en cours de modification
+
 sections.forEach(section => {
     section.addEventListener('click', (event) => {
         const target = event.target;
@@ -143,41 +150,28 @@ sections.forEach(section => {
 
         // Ouvrir le pop-up de modification
         if (target.classList.contains('modify-task-button')) {
+            const taskId = target.closest('article').querySelector('.delete-task-button').dataset.id;
+            console.log(taskId);
             popUpFormModified.classList.remove('hidden');
-            document.getElementById("popup-input-description").value = "";
-            document.getElementById("popup-task-name").value = "";
+            document.getElementById("modified-input-description").value = tasks[taskId-1].description;
+            document.getElementById("modified-task-name").value = tasks[taskId-1].title;
+            const taskmodified = tasks.find(t => t.id === Number(taskId));
+            console.log(taskmodified, "taskmodified");
+            
+           
+            if (taskmodified) {
+                popUpFormModified.classList.remove('hidden');
+                modifiedTitle.value = taskmodified.title;
+                modifiedDescription.value = taskmodified.description;
+                modifiedColor.value = taskmodified.color;
+                modifiedStatus.value = taskmodified.state;
+                currentTaskId = taskmodified.id; // Stocker l'ID de la tâche en cours de modification
+            }
         }
-        //  Faire les modification pour voir si sa marche 
-        // sections.forEach(section => {
-        //     section.addEventListener('click', (event) => {
-        //         const target = event.target;
-        
-        //         // Ouvrir le pop-up de modification
-        //         if (target.classList.contains('modify-task-button')) {
-        //             const taskId = target.closest('article').querySelector('.delete-task-button').dataset.id;
-        //             const task = tasks.find(t => t.id === Number(taskId));
-        
-        //             if (task) {
-        //                 // Afficher le pop-up et pré-remplir les champs
-        //                 popUpFormModified.classList.remove('hidden');
-        //                 modifiedTitle.value = task.title;
-        //                 modifiedDescription.value = task.description;
-        //                 modifiedStatus.value = task.state;
-                        
-        //                 // Sauvegarder l'ID de la tâche à modifier
-        //                 saveModifiedButton.dataset.id = taskId;
-        //             }
-        //         }
-        //     });
-        // });
         
     });
 });
 
-// Fermer le pop-up de modification
-closePopUp.addEventListener("click", () => {
-    popUpFormModified.classList.add("hidden");
-});
 
 function deleteTask(id) {
     console.log(id);
@@ -243,39 +237,49 @@ if (closePopUpIcone) {
 
 //POP UP MODIFICATION
 
+
+// saveModifiedButton.addEventListener("click", (event) => {
+//     event.preventDefault();
+    
+//     const modifiedTask = {
+//         id: tasks.length + 1,
+//         title: title.value,
+//         description: description.value,
+//         state: statusbar.value,
+//         color: color.value,
+//     };
+    
+//     tasks.push(modifiedTask);
+//     console.log(modifiedTask)
+//     generateTask();
+    
+// });
+
+saveModifiedButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const taskIndex = tasks.findIndex(task => task.id === currentTaskId);
+    console.log(taskIndex);
+    // Mettre à jour les informations de la tâche
+    tasks[taskIndex].title = modifiedTitle.value;
+    tasks[taskIndex].description = modifiedDescription.value;
+    tasks[taskIndex].color = modifiedColor.value;
+    tasks[taskIndex].state = modifiedStatus.value;
+
+    // Fermer le pop-up et rafraîchir l'affichage des tâches
+    popUpFormModified.classList.add("hidden");
+    generateTask();
+    currentTaskId = null; // Réinitialiser l'ID de la tâche courante
+
+    
+
+});
+
+
+// Fermer le pop-up de modification
 closePopUp.addEventListener("click", () => {
     popUpFormModified.classList.add("hidden");
 });
-
-// const modifiedTitle = document.getElementById("popup-modified-task-name");
-// const modifiedDescription = document.getElementById("popup-modified-description");
-// const modifiedStatus = document.getElementById("popup-modified-status");
-// const saveModifiedButton = document.getElementById("button-save-modified-task");
-// const FormModified = document.querySelector(".container-popup-modified");
-// const close = document.getElementById("close-popup-modified");
-
-
-
-// gestionnaire d'événements pour le bouton Enregistrer et mets à jour le tableau tasks avec les nouvelles valeurs :
-// saveModifiedButton.addEventListener("click", () => {
-//     const taskId = Number(saveModifiedButton.dataset.id);
-//     const taskIndex = tasks.findIndex(task => task.id === taskId);
-
-//     if (taskIndex !== -1) {
-//         // Mettre à jour les informations de la tâche
-//         tasks[taskIndex].title = modifiedTitle.value;
-//         tasks[taskIndex].description = modifiedDescription.value;
-//         tasks[taskIndex].state = modifiedStatus.value; // Mise à jour du statut
-
-//         // Fermer la pop-up et rafraîchir l'affichage
-//         popUpFormModified.classList.add("hidden");
-//         generateTask(); // Rafraîchir les tâches affichées
-//     } else {
-//         console.error("Tâche non trouvée pour la mise à jour.");
-//     }
-// });
-
-
 
 generateTask();
 displayPopUp();
