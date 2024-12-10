@@ -1,27 +1,7 @@
 // TABLEAU DES TACHES
-const tasks = [
-  {
-    id: 1,
-    title: "Tâche 1",
-    description: "iiiiiiiiiiiiiiiiiiiiiiiiiiii",
-    state: "à faire",
-    color: "blue",
-  },
-  {
-    id: 2,
-    title: "Tâche 2",
-    description: "blblablabalalbalbalab",
-    state: "à faire",
-    color: "blue",
-  },
-  {
-    id: 3,
-    title: "Tâche 3",
-    description: "oooooooooooooooooo",
-    state: "à faire",
-    color: "blue",
-  },
-];
+let tasks = [];
+// Initialisation des id
+let newId = 1;
 
 // Générer les tâches
 const generateTask = () => {
@@ -91,6 +71,21 @@ const generateTask = () => {
   });
 };
 
+const assignAnID = () => {
+  const highestIDTask = tasks.filter(
+    (task) => task.id === Math.max(...tasks.map((t) => t.id))
+  );
+  console.log("highest ID", highestIDTask);
+  if (highestIDTask.length > 0) {
+    newId = highestIDTask[0].id + 1;
+    console.log("Nouvel ID attribué :", newId);
+    return newId;
+  } else {
+    newId = 1; // Si le tableau `tasks` est vide
+    console.log("Aucune tâche existante, nouvel ID : 1");
+  }
+};
+
 // Gestion des événements avec event delegation
 document.querySelector("section").addEventListener("click", (event) => {
   const target = event.target;
@@ -98,6 +93,8 @@ document.querySelector("section").addEventListener("click", (event) => {
   // Supprimer une tâche
   if (target.classList.contains("delete-task-button")) {
     const id = target.dataset.id;
+    console.log("dataset", target.dataset);
+    console.log("id suppr --->", id);
     deleteTask(id);
   }
 
@@ -118,18 +115,6 @@ document.querySelector("section").addEventListener("click", (event) => {
   }
 });
 
-function deleteTask(id) {
-  console.log(id);
-  const index = tasks.findIndex((task) => task.id === Number(id));
-  if (index !== -1) {
-    tasks.splice(index, 1);
-    generateTask();
-    console.log(`Tâche avec l'ID ${id} supprimée.`);
-  } else {
-    console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
-  }
-}
-
 // Ajouter une tâche
 const buttonAddTask = document.getElementById("add-task-icone");
 const popUpForm = document.getElementsByClassName("container-popup-task")[0];
@@ -143,7 +128,7 @@ button.addEventListener("click", (event) => {
   event.preventDefault();
 
   const newTask = {
-    id: tasks.length + 1,
+    id: newId,
     title: title.value,
     description: description.value,
     state: "à faire",
@@ -192,8 +177,12 @@ button.addEventListener("click", (event) => {
   } else {
     // Ajouter la tâche seulement si les champs sont remplis
     tasks.push(newTask);
+    updateTaskIDs();
     generateTask();
     popUpForm.classList.add("hidden");
+    assignAnID();
+    console.log("message bien long --->", newId);
+    saveTasksToLocalStorage();
   }
 });
 
@@ -228,24 +217,56 @@ if (closePopUpIcone) {
 }
 
 //POP UP MODIFICATION
-const buttonModifiedTask = document.getElementsByClassName("modify-task-button");
-const popUpFormModified = document.getElementsByClassName("container-popup-modified")[0];
+const buttonModifiedTask =
+  document.getElementsByClassName("modify-task-button");
+const popUpFormModified = document.getElementsByClassName(
+  "container-popup-modified"
+)[0];
 const closePopUp = document.getElementById("close-popup-modified");
 
 const PopUp = () => {
-    for ( i=0; i < buttonModifiedTask.length; i++){
-        buttonModifiedTask[i].addEventListener("click", () => {
-            popUpFormModified.classList.remove("hidden");
-            document.getElementById("popup-input-description").value = "";
-            document.getElementById("popup-task-name").value = "";
-        });
-    }
+  for (i = 0; i < buttonModifiedTask.length; i++) {
+    buttonModifiedTask[i].addEventListener("click", () => {
+      popUpFormModified.classList.remove("hidden");
+      document.getElementById("popup-input-description").value = "";
+      document.getElementById("popup-task-name").value = "";
+    });
+  }
 };
 
 closePopUp.addEventListener("click", () => {
-    popUpFormModified.classList.add("hidden");
+  popUpFormModified.classList.add("hidden");
 });
 
+//stockage des tâches dans le local storage
+const saveTasksToLocalStorage = () => {
+  localStorage.setItem("Saved Tasks", JSON.stringify(tasks));
+};
+
+const loadTasksFromLocalStorage = () => {
+  const storedTasks = localStorage.getItem("Saved Tasks");
+  if (storedTasks) {
+    console.log("stored tasks -->", storedTasks);
+    updateTaskIDs();
+    tasks = JSON.parse(storedTasks); // Met à jour la variable globale "tasks"
+  }
+};
+
+// Met à jour les IDs des tâches
+const updateTaskIDs = () => {
+  tasks.forEach((task, index) => {
+    task.id = index; // ID = index dans le tableau
+  });
+};
+
+const deleteTask = (id) => {
+  tasks.splice(id, 1); // Supprime l'élément à l'index `id`
+  updateTaskIDs(); // Met à jour les IDs
+  generateTask();
+  saveTasksToLocalStorage();
+};
+
+loadTasksFromLocalStorage();
 generateTask();
 displayPopUp();
 PopUp();
