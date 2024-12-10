@@ -273,19 +273,15 @@
       align-items: center;
       width: 100%;
       gap: 8px;
+      position: absolute;
+      top: 50px;
    }
 
    .container-category p {
       font-size: 0.7rem;
       font-weight: 800;
-      color: grey;
-      text-align: center;
-   }
-
-   .container-category p:hover {
-      background-color: var(--color-orange);
       color: white;
-
+      text-align: center;
    }
 
    .container-priority {
