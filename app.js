@@ -186,6 +186,8 @@ const modifiedDescription = document.getElementById("modified-input-description"
 const modifiedColor = document.getElementById("modified-input-color");
 const modifiedStatus = document.getElementById("popup-input-state");
 const saveModifiedButton = document.getElementById("button-submit-modified");
+const modifiedPriority = document.getElementById("modified-input-priority");
+const modifiedCategory = document.getElementById("modified-task-category");
 
 // Boucle pour chaque section
 let currentTaskId = null; // Pour suivre la tâche en cours de modification
@@ -229,6 +231,8 @@ sections.forEach(section => {
                 modifiedDescription.value = taskmodified.description;
                 modifiedColor.value = taskmodified.color;
                 modifiedStatus.value = taskmodified.state;
+                modifiedPriority.value = taskmodified.priority;
+                modifiedCategory.value = taskmodified.category;
                 currentTaskId = taskmodified.id; // Stocker l'ID de la tâche en cours de modification
             }
         }
@@ -389,6 +393,8 @@ saveModifiedButton.addEventListener("click", (event) => {
     tasks[taskIndex].description = modifiedDescription.value;
     tasks[taskIndex].color = modifiedColor.value;
     tasks[taskIndex].state = modifiedStatus.value;
+    tasks[taskIndex].priority = modifiedPriority.value;
+    tasks[taskIndex].category = modifiedCategory.value;
 
     // Fermer le pop-up et rafraîchir l'affichage des tâches
     popUpFormModified.classList.add("hidden");
