@@ -22,22 +22,7 @@
                 <div class="container-kanban-title">
                     <h2 class="state-title" id="to-do">à faire</h2>
                 </div>
-                <section id="fisrt-section">
-                    <article>
-                        <div class="container-task-header">
-                            <h3 class="task-name">Tache 1</h3>
-                            <span class="modify-icon">...</span>
-                        </div>
-                        <div class="container-task-body">
-                            <p class="description-task">Description de la carte</p>
-                        </div>
-                        <!-- pop up de modification et suppression-->
-                        <div class="container-add-icone">
-                            <span id="add-icone"></span>
-                            <button id="modify-task-button">Modifier</button>
-                            <button id="delete-task-button">Supprimer</button>
-                        </div>
-                    </article>
+                <section id="first-section">
                 </section>
             </div>
             <div class="container-section-and-title">
@@ -95,11 +80,11 @@
                     <option value="green">Vert</option>
                     <option value="orange">Orange</option>
                 </select>
-                <label for="popup-input-font">Statut</label>
-                <select name="font" id="popup-input-font">
-                    <option value="arial">Arial</option>
-                    <option value="helvetica">Garamond</option>
-                    <option value="lato">Lato</option>
+                <label for="popup-input-state">Statut</label>
+                <select name="state" id="popup-input-state">
+                    <option value="to-do">à faire</option>
+                    <option value="in-progress">en cours</option>
+                    <option value="finish">terminé</option>
                 </select>
                 <button type="submit" id="button-submit">Enregistrer</button>
             </div>
