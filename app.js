@@ -1,9 +1,18 @@
 // TABLEAU DES TACHES
-
-let tasks = [];
+let tasks = [
+  {
+      id: 0,
+      title: 'Tâche 1',
+      description: 'Description de la tâche',
+      state: 'à faire',
+      color: 'blue',
+      category: '',
+      priority: '',
+  },
+];
 
 let newId = 1;
-
+    
 // Trier les tâches par priorité
 tasks.sort((a, b) => {
   const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
@@ -40,6 +49,7 @@ const generateTask = (filteredTasks = tasks) => {
   html_section_1.innerHTML = "";
   html_section_2.innerHTML = "";  
   html_section_3.innerHTML = "";
+  
   
   filteredTasks.forEach((task) => {
     const html_taskArticle = document.createElement("article");
@@ -211,7 +221,7 @@ sections.forEach(section => {
             document.getElementById("modified-task-name").value = tasks[taskId-1].title;
             const taskmodified = tasks.find(t => t.id === Number(taskId));
             console.log(taskmodified, "taskmodified");
-          
+            
            
             if (taskmodified) {
                 popUpFormModified.classList.remove('hidden');
@@ -252,6 +262,27 @@ sections.forEach(section => {
     });
 });
 
+
+// function deleteTask(id) {
+//   console.log(id);
+//   const index = tasks.findIndex((task) => task.id === Number(id));
+//   if (index !== -1) {
+//     tasks.splice(index, 1);
+//     generateTask();
+//     console.log(`Tâche avec l'ID ${id} supprimée.`);
+//   } else {
+//     console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
+//   }
+// }
+
+const deleteTask = (id) => {
+  tasks.splice(id, 1); // Supprime l'élément à l'index `id`
+  updateTaskIDs(); // Met à jour les IDs
+  generateTask();
+  generateCategoriesOptions();
+  saveTasksToLocalStorage();
+};
+
 // Ajouter une tâche
 const buttonAddTask = document.getElementById("add-task-icone");
 const popUpForm = document.getElementsByClassName("container-popup-task")[0];
@@ -267,7 +298,7 @@ button.addEventListener("click", (event) => {
   event.preventDefault();
 
   const newTask = {
-    id: newId,
+    id: tasks.length, // L'ID est égal à la taille actuelle du tableau
     title: title.value,
     description: description.value,
     state: "à faire",
@@ -318,13 +349,11 @@ button.addEventListener("click", (event) => {
   } else {
     // Ajouter la tâche seulement si les champs sont remplis
     tasks.push(newTask);
-    updateTaskIDs();
     generateTask();
-    generateCategoriesOptions();
-    popUpForm.classList.add("hidden");
-    assignAnID();
-    console.log("message bien long --->", newId);
+    updateTaskIDs();
+    generateCategoriesOptions()
     saveTasksToLocalStorage();
+    popUpForm.classList.add("hidden");
   }
 });
 
@@ -362,23 +391,6 @@ if (closePopUpIcone) {
 
 //POP UP MODIFICATION
 
-const buttonModifiedTask =
-  document.getElementsByClassName("modify-task-button");
-const popUpFormModified = document.getElementsByClassName(
-  "container-popup-modified"
-)[0];
-const closePopUp = document.getElementById("close-popup-modified");
-
-const PopUp = () => {
-  for (i = 0; i < buttonModifiedTask.length; i++) {
-    buttonModifiedTask[i].addEventListener("click", () => {
-      popUpFormModified.classList.remove("hidden");
-      document.getElementById("popup-input-description").value = "";
-      document.getElementById("popup-task-name").value = "";
-    });
-  }
-};
-
 saveModifiedButton.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -396,11 +408,15 @@ saveModifiedButton.addEventListener("click", (event) => {
     popUpFormModified.classList.add("hidden");
     generateTask();
     currentTaskId = null; // Réinitialiser l'ID de la tâche courante
+
+    
+
 });
+
 
 // Fermer le pop-up de modification
 closePopUp.addEventListener("click", () => {
-  popUpFormModified.classList.add("hidden");
+    popUpFormModified.classList.add("hidden");
 });
 
 //stockage des tâches dans le local storage
@@ -409,11 +425,11 @@ const saveTasksToLocalStorage = () => {
 };
 
 const loadTasksFromLocalStorage = () => {
-  const storedTasks = localStorage.getItem("Saved Tasks");
+  let storedTasks = localStorage.getItem("Saved Tasks");
   if (storedTasks) {
-    console.log("stored tasks -->", storedTasks);
-    updateTaskIDs();
-    tasks = JSON.parse(storedTasks); // Met à jour la variable globale "tasks"
+    tasks = JSON.parse(storedTasks); // Met à jour les tâches existantes
+    updateTaskIDs(); // Réindexe les IDs si nécessaire
+    generateCategoriesOptions() 
   }
 };
 
@@ -422,13 +438,6 @@ const updateTaskIDs = () => {
   tasks.forEach((task, index) => {
     task.id = index; // ID = index dans le tableau
   });
-};
-
-const deleteTask = (id) => {
-  tasks.splice(id, 1); // Supprime l'élément à l'index `id`
-  updateTaskIDs(); // Met à jour les IDs
-  generateTask();
-  saveTasksToLocalStorage();
 };
 
 
@@ -444,13 +453,17 @@ filterButton.addEventListener("click", () => {
 // Fonction pour récupérer les catégories uniques et les ajouter au sélecteur
 const generateCategoriesOptions = () => {
   const selectInputCategory = document.getElementById("category-input-filter");
+  
+  // Réinitialiser le contenu du menu déroulant
+  selectInputCategory.innerHTML = ""; // Supprimer toutes les options existantes
+  
   // Récupérer toutes les catégories des tâches
   const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
-
+  
   // Rendre les catégories uniques
   const uniqueCategories = [...new Set(categories)];
   
-  // Ajouter une option pour chaque catégorie unique
+  // Ajouter une option par catégorie unique
   uniqueCategories.forEach(category => {
     const option = document.createElement("option");
     option.value = category;
