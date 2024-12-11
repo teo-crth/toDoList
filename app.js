@@ -457,6 +457,12 @@ const generateCategoriesOptions = () => {
   // Réinitialiser le contenu du menu déroulant
   selectInputCategory.innerHTML = ""; // Supprimer toutes les options existantes
   
+  // Ajouter une option "Toutes les catégories"
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "Toutes les catégories";
+  selectInputCategory.appendChild(allOption);
+  
   // Récupérer toutes les catégories des tâches
   const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
   
