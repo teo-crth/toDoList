@@ -370,25 +370,25 @@ if (closePopUpIcone) {
 //POP UP MODIFICATION
 
 saveModifiedButton.addEventListener("click", (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    const taskIndex = tasks.findIndex(task => task.id === currentTaskId);
-    console.log(taskIndex);
-    // Mettre à jour les informations de la tâche
-    tasks[taskIndex].title = modifiedTitle.value;
-    tasks[taskIndex].description = modifiedDescription.value;
-    tasks[taskIndex].color = modifiedColor.value;
-    tasks[taskIndex].state = modifiedStatus.value;
-    tasks[taskIndex].priority = modifiedPriority.value;
-    tasks[taskIndex].category = modifiedCategory.value;
+  const taskIndex = tasks.findIndex(task => task.id === currentTaskId);
+  console.log(taskIndex);
+  // Mettre à jour les informations de la tâche
+  tasks[taskIndex].title = modifiedTitle.value;
+  tasks[taskIndex].description = modifiedDescription.value;
+  tasks[taskIndex].color = modifiedColor.value;
+  tasks[taskIndex].state = modifiedStatus.value;
+  tasks[taskIndex].priority = modifiedPriority.value;
+  tasks[taskIndex].category = modifiedCategory.value;
 
-    // Fermer le pop-up et rafraîchir l'affichage des tâches
-    popUpFormModified.classList.add("hidden");
-    sortTasksByPriority();
-    generateTask();
-    currentTaskId = null; // Réinitialiser l'ID de la tâche courante
-
-    
+  // Fermer le pop-up et rafraîchir l'affichage des tâches
+  popUpFormModified.classList.add("hidden");
+  sortTasksByPriority();
+  generateTask();
+  generateCategoriesOptions();
+  currentTaskId = null; // Réinitialiser l'ID de la tâche courante
+  saveTasksToLocalStorage();   
 
 });
 
