@@ -145,7 +145,7 @@ const generateTask = (filteredTasks = tasks) => {
     html_taskArticle.addEventListener("dragend", (e) => {
         e.target.style.opacity = "1";  // Réinitialise l'opacité après le drag
     });
-
+    generateCategoriesOptions();
     return;
   });
 };
