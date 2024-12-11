@@ -229,14 +229,15 @@
    
    #add-task-icone {
       cursor: pointer;
-      font-size: 6rem;
+      font-size: 3rem;
       color: white;
       background-color: var(--color-orange);
-      border-radius: 50%;
-      padding: 1rem 3rem;
+      border-radius: 82px;
       box-shadow: 0px 2px 2px 2px var(--color-light-blue);
       margin-top: 1rem;
-      
+      width: 40%;
+      text-align: center;   
+      margin-bottom: 1rem;   
    }
    
    #add-task-icone:hover {
@@ -362,6 +363,7 @@
    @media screen and (min-width: 768px) {
       .container-sections {
          flex-direction: row;
+         margin-top: 0;
       }
       
       .container-kanban-title{
@@ -402,6 +404,10 @@
          top: 70px;
          right: 165px;
          width: 300px;
+       }
+
+       #add-task-icone {
+         width: 10%;
        }
 }
 
