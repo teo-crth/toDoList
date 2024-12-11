@@ -38,6 +38,8 @@ const generateTask = (filteredTasks = tasks) => {
   html_section_1.innerHTML = "";
   html_section_2.innerHTML = "";  
   html_section_3.innerHTML = "";
+
+  sortTasksByPriority();
   
   filteredTasks.forEach((task) => {
     const html_taskArticle = document.createElement("article");
@@ -112,7 +114,7 @@ const generateTask = (filteredTasks = tasks) => {
     html_closeEditTask.textContent = "X";
     html_buttonModifyTask.textContent = "Modifier";
     html_buttonDelete.textContent = "Supprimer";
-    html_textCategory.textContent = `Catégorie : ${task.category}`;
+    html_textCategory.textContent = task.category ? `Catégorie : ${task.category}` : "";
 
     // Ajout de la couleur en fonction de la priorité
     if (task.priority === "low") {
@@ -324,9 +326,9 @@ button.addEventListener("click", (event) => {
   } else {
     // Ajouter la tâche seulement si les champs sont remplis
     tasks.push(newTask);
+    updateTaskIDs();
     sortTasksByPriority();
     generateTask();
-    updateTaskIDs();
     generateCategoriesOptions()
     saveTasksToLocalStorage();
     popUpForm.classList.add("hidden");
