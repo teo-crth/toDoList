@@ -1,42 +1,31 @@
 // TABLEAU DES TACHES
 let tasks = [
-  {
-      id: 0,
-      title: 'Tâche 1',
-      description: 'Description de la tâche',
-      state: 'à faire',
-      color: 'blue',
-      category: '',
-      priority: '',
-  },
 ];
 
 let newId = 1;
     
 // Trier les tâches par priorité
-tasks.sort((a, b) => {
+const sortTasksByPriority = () => {
   const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
-  return priorityOrder[a.priority] - priorityOrder[b.priority];
-});
+  tasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+};
 
 // Fonction pour afficher les tâches filtrées par catégorie
 const filterTasksByCategory = () => {
   const submitFilterButton = document.getElementById("filter-submitButton"); // Bouton pour appliquer le filtre
-  const selectedCategory = document.getElementById("category-input-filter"); // Le sélecteur de catégorie (assurez-vous que c'est le bon ID)
-  
+  const selectedCategory = document.getElementById("category-input-filter"); // Le sélecteur de catégorie
+
   submitFilterButton.addEventListener("click", () => {
     // Récupère la catégorie sélectionnée
     const categoryValue = selectedCategory.value;
 
     // Filtrer les tâches en fonction de la catégorie sélectionnée
-    const filteredTasks = categoryValue === "all" 
-      ? tasks // Si "all" est sélectionné, affiche toutes les tâches
-      : tasks.filter(task => task.category === categoryValue); // Sinon, filtre les tâches par catégorie
+    const filteredTasks = categoryValue === "all" ? tasks : tasks.filter(task => task.category === categoryValue); 
+    // Si all est selectionné afficher toutes les taches, sinon filtrer les tâches par catégorie
 
     // Regénérer les tâches dans les sections
     generateTask(filteredTasks);
     filterCategory.classList.add("hidden"); // Masquer le conteneur de filtre
-
   });
 };
 
@@ -49,7 +38,6 @@ const generateTask = (filteredTasks = tasks) => {
   html_section_1.innerHTML = "";
   html_section_2.innerHTML = "";  
   html_section_3.innerHTML = "";
-  
   
   filteredTasks.forEach((task) => {
     const html_taskArticle = document.createElement("article");
@@ -217,8 +205,8 @@ sections.forEach(section => {
             const taskId = target.closest('article').querySelector('.delete-task-button').dataset.id;
             console.log(taskId);
             popUpFormModified.classList.remove('hidden');
-            document.getElementById("modified-input-description").value = tasks[taskId-1].description;
-            document.getElementById("modified-task-name").value = tasks[taskId-1].title;
+            document.getElementById("modified-input-description").value = tasks[taskId].description;
+            document.getElementById("modified-task-name").value = tasks[taskId].title;
             const taskmodified = tasks.find(t => t.id === Number(taskId));
             console.log(taskmodified, "taskmodified");
             
@@ -257,28 +245,17 @@ sections.forEach(section => {
             } else if (section.id === "third-section") {
                 task.state = "terminé";
             }
+            sortTasksByPriority();
             generateTask();  // Récupère les tâches avec leur nouvel état
             saveTasksToLocalStorage();
         }
     });
 });
 
-
-// function deleteTask(id) {
-//   console.log(id);
-//   const index = tasks.findIndex((task) => task.id === Number(id));
-//   if (index !== -1) {
-//     tasks.splice(index, 1);
-//     generateTask();
-//     console.log(`Tâche avec l'ID ${id} supprimée.`);
-//   } else {
-//     console.log(`Aucune tâche trouvée avec l'ID ${id}.`);
-//   }
-// }
-
 const deleteTask = (id) => {
   tasks.splice(id, 1); // Supprime l'élément à l'index `id`
-  updateTaskIDs(); // Met à jour les IDs
+  updateTaskIDs();
+  sortTasksByPriority();
   generateTask();
   generateCategoriesOptions();
   saveTasksToLocalStorage();
@@ -300,7 +277,7 @@ button.addEventListener("click", (event) => {
 
   const newTask = {
     id: tasks.length, // L'ID est égal à la taille actuelle du tableau
-    title: title.value,
+    title: title.value, // Ajoute dans l'objet la valeur de l'input titre
     description: description.value,
     state: "à faire",
     color: color.value,
@@ -310,8 +287,6 @@ button.addEventListener("click", (event) => {
 
   title.addEventListener("input", (event) => {
     valueT = event.target.value;
-    console.log(event.target.value); // Récupère la valeur actuelle
-    console.log(`Valeur actuelle Title : ${valueT}`); // Affiche la valeur
     if (valueT.length > 0) {
       title.style.border = "1px solid lightgray";
     }
@@ -320,7 +295,6 @@ button.addEventListener("click", (event) => {
 
   description.addEventListener("input", (event) => {
     valueD = event.target.value; // Récupère la valeur actuelle
-    console.log(`Valeur actuelle Description : ${valueD}`); // Affiche la valeur
     if (valueD.length > 0) {
       description.style.border = "1px solid lightgray";
     }
@@ -350,6 +324,7 @@ button.addEventListener("click", (event) => {
   } else {
     // Ajouter la tâche seulement si les champs sont remplis
     tasks.push(newTask);
+    sortTasksByPriority();
     generateTask();
     updateTaskIDs();
     generateCategoriesOptions()
@@ -407,6 +382,7 @@ saveModifiedButton.addEventListener("click", (event) => {
 
     // Fermer le pop-up et rafraîchir l'affichage des tâches
     popUpFormModified.classList.add("hidden");
+    sortTasksByPriority();
     generateTask();
     currentTaskId = null; // Réinitialiser l'ID de la tâche courante
 
@@ -454,9 +430,7 @@ filterButton.addEventListener("click", () => {
 // Fonction pour récupérer les catégories uniques et les ajouter au sélecteur
 const generateCategoriesOptions = () => {
   const selectInputCategory = document.getElementById("category-input-filter");
-  
-  // Réinitialiser le contenu du menu déroulant
-  selectInputCategory.innerHTML = ""; // Supprimer toutes les options existantes
+  selectInputCategory.innerHTML = ""; // Réinitialiser le contenu du menu déroulant
   
   // Ajouter une option "Toutes les catégories"
   const allOption = document.createElement("option");
@@ -464,10 +438,8 @@ const generateCategoriesOptions = () => {
   allOption.textContent = "Toutes les catégories";
   selectInputCategory.appendChild(allOption);
 
-  // Récupérer toutes les catégories des tâches
-  const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
-  
   // Rendre les catégories uniques
+  const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
   const uniqueCategories = [...new Set(categories)];
   
   // Ajouter une option par catégorie unique
@@ -482,5 +454,6 @@ const generateCategoriesOptions = () => {
 loadTasksFromLocalStorage();
 generateCategoriesOptions();
 filterTasksByCategory();
+sortTasksByPriority();
 generateTask();
 displayPopUp();
