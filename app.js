@@ -258,6 +258,7 @@ sections.forEach(section => {
                 task.state = "terminé";
             }
             generateTask();  // Récupère les tâches avec leur nouvel état
+            saveTasksToLocalStorage();
         }
     });
 });
@@ -462,7 +463,7 @@ const generateCategoriesOptions = () => {
   allOption.value = "all";
   allOption.textContent = "Toutes les catégories";
   selectInputCategory.appendChild(allOption);
-  
+
   // Récupérer toutes les catégories des tâches
   const categories = tasks.map(task => task.category).filter(category => category !== ""); // Filtrer les catégories vides
   
